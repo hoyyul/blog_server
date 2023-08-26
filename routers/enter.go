@@ -14,8 +14,10 @@ func InitRouter() *gin.Engine {
 	gin.SetMode(global.Config.System.Env) //block some logs in this env
 	router := gin.Default()
 
-	router.GET("", func(c *gin.Context) {
-		c.String(200, "xxx")
-	})
+	apiRouterGroup := router.Group("api")
+	routerGroupApp := RouterGroup{apiRouterGroup}
+
+	//Configure API
+	routerGroupApp.SettingsRouter()
 	return router
 }
