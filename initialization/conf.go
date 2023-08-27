@@ -3,6 +3,7 @@ package initialization
 import (
 	"blog_server/config"
 	"blog_server/global"
+	"io/fs"
 	"log"
 	"os"
 
@@ -23,4 +24,20 @@ func InitConf() {
 	}
 	log.Println("Configuration file loads successfully.")
 	global.Config = c
+}
+
+func SettingYaml() error {
+	byteFile, err := yaml.Marshal(global.Config)
+
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(ConfigFile, byteFile, fs.ModePerm)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
