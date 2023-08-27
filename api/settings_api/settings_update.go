@@ -10,23 +10,57 @@ import (
 )
 
 func (SettingsApi) SettingsUpdateInfoView(c *gin.Context) {
-	var cs config.SiteInfo
-	err := c.ShouldBindJSON(&cs)
+	var uri SiteUri
+	err := c.ShouldBindUri(&uri) // load request uri into struct
 
 	if err != nil {
+		global.Logger.Error(err)
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
 
-	global.Config.SiteInfo = cs
-	err = initialization.SettingYaml()
-
-	if err != nil {
-		global.Logger.Error(err)
-		res.FailWithMessage(err.Error(), c)
-		return
+	configMap := map[string]interface{}{
+		"site":  &config.SiteInfo{},
+		"email": &config.Email{},
+		"qq":    &config.QQ{},
+		"qiniu": &config.QiNiu{},
+		"jwt":   &config.Jwt{},
 	}
 
-	global.Logger.Info("Update configuration file successfully!")
-	res.OkWithSuccess(c)
+	if info, ok := configMap[uri.Name]; ok {
+		err = c.ShouldBindJSON(info)
+
+		if err != nil {
+			global.Logger.Error(err)
+			res.FailWithCode(res.ParameterError, c)
+			return
+		}
+
+		switch uri.Name {
+		case "site":
+			global.Config.SiteInfo = *(info.(*config.SiteInfo)) //reflection
+		case "email":
+			global.Config.Email = *(info.(*config.Email))
+		case "qq":
+			global.Config.QQ = *(info.(*config.QQ))
+		case "qiniu":
+			global.Config.QiNiu = *(info.(*config.QiNiu))
+		case "jwt":
+			global.Config.Jwt = *(info.(*config.Jwt))
+		}
+
+		err = initialization.SettingYaml()
+
+		if err != nil {
+			global.Logger.Error(err)
+			res.FailWithMessage(err.Error(), c)
+			return
+		}
+
+		global.Logger.Info("Update configuration file successfully!")
+		res.OkWithSuccess(c)
+
+	} else {
+		res.FailWithMessage("No such information to update.", c)
+	}
 }

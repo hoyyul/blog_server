@@ -42,9 +42,9 @@ func OkWithSuccess(c *gin.Context) {
 	Result(SUCCESS, map[string]interface{}{}, "Succeeded", c)
 }
 
-func Fail(data any, msg string, c *gin.Context) {
+/*func Fail(data any, msg string, c *gin.Context) {
 	Result(ERROR, data, msg, c)
-}
+}*/
 
 func FailWithMessage(msg string, c *gin.Context) {
 	Result(ERROR, map[string]interface{}{}, msg, c)
