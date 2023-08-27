@@ -3,7 +3,7 @@ mysql:
   port: 3306
   db: blog_db
   user: root
-  config: ""
+  config: "charset=utf8mb4&parseTime=True&loc=Local"
   password: root
   log_level: dev
 logger:

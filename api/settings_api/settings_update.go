@@ -36,6 +36,7 @@ func (SettingsApi) SettingsUpdateInfoView(c *gin.Context) {
 			return
 		}
 
+		// judge which entry to be updated
 		switch uri.Name {
 		case "site":
 			global.Config.SiteInfo = *(info.(*config.SiteInfo)) //reflection
