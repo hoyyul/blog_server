@@ -17,6 +17,11 @@ type Response struct {
 	Msg  string `json:"msg"`
 }
 
+type ListResponse[T any] struct { // generic type
+	List  T     `json:"list"` //wrap to json
+	Count int64 `json:"count"`
+}
+
 // encapuslate response
 func Result(code int, data any, msg string, c *gin.Context) {
 	c.JSON(http.StatusOK, Response{
@@ -40,6 +45,13 @@ func OkWithData(data any, c *gin.Context) {
 
 func OkWithSuccess(c *gin.Context) {
 	Result(SUCCESS, map[string]interface{}{}, "Succeeded", c)
+}
+
+func OkWithList[T any](list T, count int64, c *gin.Context) {
+	OkWithData(ListResponse[T]{
+		List:  list,
+		Count: count,
+	}, c)
 }
 
 /*func Fail(data any, msg string, c *gin.Context) {

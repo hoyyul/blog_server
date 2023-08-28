@@ -19,11 +19,14 @@ func InitGorm() *gorm.DB {
 	dsn := global.Config.Mysql.DSN()
 
 	var mysqlLogger logger.Interface // logger from gorm lib
-	if global.Config.System.Env == "dev" {
+
+	if global.Config.System.Env == "debug" {
 		mysqlLogger = logger.Default.LogMode(logger.Info)
 	} else {
 		mysqlLogger = logger.Default.LogMode(logger.Error)
 	}
+
+	global.MysqlLogger = logger.Default.LogMode(logger.Info)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: mysqlLogger,
