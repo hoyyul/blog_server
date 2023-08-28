@@ -1,6 +1,7 @@
 package res
 
 import (
+	"blog_server/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -68,4 +69,9 @@ func FailWithCode(code int, c *gin.Context) {
 		return
 	}
 	Result(SUCCESS, map[string]interface{}{}, "Unknown Error", c)
+}
+
+func FailWithValidation(err error, obj any, c *gin.Context) {
+	msg := utils.GetValidMsg(err, obj)
+	FailWithMessage(msg, c)
 }
