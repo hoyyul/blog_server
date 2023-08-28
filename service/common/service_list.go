@@ -21,6 +21,11 @@ func FetchPaginatedData[T any](op Option) (list T, count int64, err error) {
 		})
 	}
 
+	// Sort according to time to create
+	if op.Sort == "" {
+		op.Sort = "created_at desc"
+	}
+
 	// caculate page
 	count = DB.Select("id").Find(&list).RowsAffected
 	offset := (op.PageInfo.Page - 1) * op.PageInfo.Limit
@@ -30,6 +35,6 @@ func FetchPaginatedData[T any](op Option) (list T, count int64, err error) {
 	}
 
 	// store search result to list
-	err = DB.Limit(op.PageInfo.Limit).Offset(offset).Find(&list).Error
+	err = DB.Limit(op.PageInfo.Limit).Offset(offset).Order(op.Sort).Find(&list).Error
 	return list, count, err
 }
