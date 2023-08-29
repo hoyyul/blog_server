@@ -12,6 +12,7 @@ type Option struct {
 	Debug bool
 }
 
+// get paginated data
 func FetchPaginatedData[T any](op Option) (list T, count int64, err error) {
 	//print sql statement if debug mode
 	DB := global.DB

@@ -20,12 +20,14 @@ func (ImagesApi) ImagesRemoveListView(c *gin.Context) {
 	}
 
 	var imageList []models.BannerModel
-	count := global.DB.Find(&imageList, req.IdList).RowsAffected // search
+	// check if data exists before deletion
+	count := global.DB.Find(&imageList, req.IdList).RowsAffected
 	if count == 0 {
 		res.FailWithMessage("No image can be removed", c)
 		return
 	}
 
-	global.DB.Delete(imageList) // delete
+	// delete image in database, and use hook function to delect image in local
+	global.DB.Delete(imageList)
 	res.OkWithMessage(fmt.Sprintf("Remove %d image", count), c)
 }

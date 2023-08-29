@@ -17,6 +17,7 @@ func (ImagesApi) ImagesGetListView(c *gin.Context) {
 		res.FailWithCode(res.ParameterError, c)
 	}
 
+	// get paginated image list
 	imageList, count, err := common.FetchPaginatedData[models.BannerModel](common.Option{
 		PageInfo: page,
 		Debug:    true,

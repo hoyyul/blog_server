@@ -7,7 +7,7 @@ type Config struct {
 	SiteInfo SiteInfo `yaml:"site_info"`
 	Upload   Upload   `yaml:"upload"`
 	QQ       QQ       `yaml:"qq"`
-	QiNiu    QiNiu    `yaml:"qi_niu"`
+	AWS      AWS      `yaml:"aws"`
 	Email    Email    `yaml:"email"`
 	Jwt      Jwt      `yaml:"jwt"`
 }

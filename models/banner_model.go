@@ -9,15 +9,15 @@ import (
 
 type BannerModel struct {
 	MODEL
-	Path             string                 `json:"path"`
-	Hash             string                 `json:"hash"`
-	Name             string                 `json:"name"`
-	StorageLocatioin ctype.StorageLocatioin `gorm:"default:1" json:"storage_location"` // local or cloud
+	Path            string                `json:"path"`
+	Hash            string                `json:"hash"`
+	Name            string                `json:"name"`
+	StorageLocation ctype.StorageLocation `gorm:"default:1" json:"storage_location"` // local or cloud
 }
 
 // hook function to remove image from local path
 func (b *BannerModel) BeforeDelete(db *gorm.DB) (err error) {
-	if b.StorageLocatioin == ctype.Local {
+	if b.StorageLocation == ctype.Local {
 		err := os.Remove(b.Path)
 		if err != nil {
 			return err

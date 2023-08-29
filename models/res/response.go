@@ -41,11 +41,11 @@ func OkWithMessage(msg string, c *gin.Context) {
 }
 
 func OkWithData(data any, c *gin.Context) {
-	Result(SUCCESS, data, "Succeeded", c)
+	Result(SUCCESS, data, "Success", c)
 }
 
 func OkWithSuccess(c *gin.Context) {
-	Result(SUCCESS, map[string]interface{}{}, "Succeeded", c)
+	Result(SUCCESS, map[string]interface{}{}, "Success", c)
 }
 
 func OkWithList[T any](list T, count int64, c *gin.Context) {

@@ -2,17 +2,18 @@ package ctype
 
 import "encoding/json"
 
-type StorageLocatioin int
+type StorageLocation int
 
 const (
-	Local StorageLocatioin = 1
+	Local StorageLocation = 1
+	AWS   StorageLocation = 2
 )
 
-func (s StorageLocatioin) MarshalJSON() ([]byte, error) {
+func (s StorageLocation) MarshalJSON() ([]byte, error) {
 	return json.Marshal(s.String())
 }
 
-func (s StorageLocatioin) String() string {
+func (s StorageLocation) String() string {
 	var str string
 	switch s {
 	case Local:

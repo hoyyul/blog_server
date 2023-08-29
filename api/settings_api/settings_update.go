@@ -23,7 +23,7 @@ func (SettingsApi) SettingsUpdateInfoView(c *gin.Context) {
 		"site":  &config.SiteInfo{},
 		"email": &config.Email{},
 		"qq":    &config.QQ{},
-		"qiniu": &config.QiNiu{},
+		"aws":   &config.AWS{},
 		"jwt":   &config.Jwt{},
 	}
 
@@ -36,16 +36,16 @@ func (SettingsApi) SettingsUpdateInfoView(c *gin.Context) {
 			return
 		}
 
-		// judge which entry to be updated
+		// use reflection to judge which entry to be updated
 		switch uri.Name {
 		case "site":
-			global.Config.SiteInfo = *(info.(*config.SiteInfo)) //reflection
+			global.Config.SiteInfo = *(info.(*config.SiteInfo))
 		case "email":
 			global.Config.Email = *(info.(*config.Email))
 		case "qq":
 			global.Config.QQ = *(info.(*config.QQ))
-		case "qiniu":
-			global.Config.QiNiu = *(info.(*config.QiNiu))
+		case "aws":
+			global.Config.AWS = *(info.(*config.AWS))
 		case "jwt":
 			global.Config.Jwt = *(info.(*config.Jwt))
 		}

@@ -37,14 +37,12 @@ qq:
   app_id: xx
   key: xx
   redirect: http://xx.xx.com/login?flag=qq
-qi_niu:
+aws:
   enable: false
-  access_key: UMM-xx-FdRIf-xx
-  secret_key: xx
-  bucket: zhidao
-  cdn: xx://xx.xx.com/
-  zone: xx
-  size: 5
+  bucket: hallu-blog
+  region: ap-northeast-3
+  access_key: AKIA5TVSSLD6IUZZVGIC
+  secret_key: 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
 email:
   host: .qq.com
   port: 465
