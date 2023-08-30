@@ -13,13 +13,11 @@ type Option struct {
 }
 
 // get paginated data
-func FetchPaginatedData[T any](op Option) (list T, count int64, err error) {
-	//print sql statement if debug mode
+func FetchPaginatedData[T any](model T, op Option) (list []T, count int64, err error) {
+	// print sql statement if debug mode
 	DB := global.DB
 	if op.Debug {
-		DB = global.DB.Session(&gorm.Session{ //return a new *gorm.DB instance
-			Logger: global.MysqlLogger,
-		})
+		DB = global.DB.Session(&gorm.Session{Logger: global.MysqlLogger}) // return a new *gorm.DB instance
 	}
 
 	// Sort according to time to create
@@ -27,8 +25,11 @@ func FetchPaginatedData[T any](op Option) (list T, count int64, err error) {
 		op.Sort = "created_at desc"
 	}
 
+	DB = DB.Where(model)
+	count = DB.Where(model).Find(&list).RowsAffected
+	query := DB.Where(model) // reset
+
 	// caculate page
-	count = DB.Select("id").Find(&list).RowsAffected
 	offset := (op.PageInfo.Page - 1) * op.PageInfo.Limit
 
 	if offset < 0 {
@@ -36,6 +37,10 @@ func FetchPaginatedData[T any](op Option) (list T, count int64, err error) {
 	}
 
 	// store search result to list
-	err = DB.Limit(op.PageInfo.Limit).Offset(offset).Order(op.Sort).Find(&list).Error
+	if op.Limit == 0 { // present all data
+		err = query.Offset(offset).Order(op.Sort).Find(&list).Error
+	} else { // present paginated data
+		err = query.Limit(op.Limit).Offset(offset).Order(op.Sort).Find(&list).Error
+	}
 	return list, count, err
 }

@@ -17,7 +17,9 @@ func (s StorageLocation) String() string {
 	var str string
 	switch s {
 	case Local:
-		str = "QQ"
+		str = "Local"
+	case AWS:
+		str = "AWS"
 	default:
 		str = "Other"
 	}

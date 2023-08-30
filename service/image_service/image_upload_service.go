@@ -68,7 +68,7 @@ func (ImageService) ProcessImage(image *multipart.FileHeader, c *gin.Context) (r
 
 	// check if the image already exists in the database
 	if checkIfImageExists(imageHash) {
-		res.Msg = "Image already existed"
+		res.Msg = "This image already exists"
 		return
 	}
 

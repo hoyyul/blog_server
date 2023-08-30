@@ -15,10 +15,11 @@ func (ImagesApi) ImagesGetListView(c *gin.Context) {
 
 	if err != nil {
 		res.FailWithCode(res.ParameterError, c)
+		return
 	}
 
 	// get paginated image list
-	imageList, count, err := common_service.FetchPaginatedData[models.BannerModel](common_service.Option{
+	imageList, count, err := common_service.FetchPaginatedData[models.BannerModel](models.BannerModel{}, common_service.Option{
 		PageInfo: page,
 		Debug:    true,
 	})
