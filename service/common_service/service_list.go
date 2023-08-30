@@ -37,8 +37,8 @@ func FetchPaginatedData[T any](model T, op Option) (list []T, count int64, err e
 	}
 
 	// store search result to list
-	if op.Limit == 0 { // present all data
-		err = query.Offset(offset).Order(op.Sort).Find(&list).Error
+	if op.Limit == 0 { // present all data； before gorm 1.25. gorm will ignore limit = 0
+		err = query.Order(op.Sort).Find(&list).Error
 	} else { // present paginated data
 		err = query.Limit(op.Limit).Offset(offset).Order(op.Sort).Find(&list).Error
 	}

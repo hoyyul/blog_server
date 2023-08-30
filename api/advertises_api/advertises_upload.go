@@ -26,7 +26,7 @@ func (AdvertiseApi) AdvertisementUploadView(c *gin.Context) {
 	var advertisement models.AdvertiseModel
 	err = global.DB.Take(&advertisement, "title = ?", req.Title).Error
 	if err == nil {
-		res.FailWithMessage("This advertisements already exists", c)
+		res.FailWithMessage("Advertisement already exists", c)
 		return
 	}
 
