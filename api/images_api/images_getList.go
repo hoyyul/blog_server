@@ -4,7 +4,7 @@ import (
 	"blog_server/global"
 	"blog_server/models"
 	"blog_server/models/res"
-	"blog_server/service/common"
+	"blog_server/service/common_service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +18,7 @@ func (ImagesApi) ImagesGetListView(c *gin.Context) {
 	}
 
 	// get paginated image list
-	imageList, count, err := common.FetchPaginatedData[models.BannerModel](common.Option{
+	imageList, count, err := common_service.FetchPaginatedData[models.BannerModel](common_service.Option{
 		PageInfo: page,
 		Debug:    true,
 	})

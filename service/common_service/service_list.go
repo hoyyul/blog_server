@@ -1,4 +1,4 @@
-package common
+package common_service
 
 import (
 	"blog_server/global"
