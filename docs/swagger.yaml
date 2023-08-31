@@ -1,0 +1,193 @@
+basePath: /
+definitions:
+  advertises_api.AdvertiseRequest:
+    properties:
+      href:
+        type: string
+      images:
+        type: string
+      is_show:
+        type: boolean
+      title:
+        type: string
+    required:
+    - href
+    - images
+    - is_show
+    - title
+    type: object
+  images_api.ImageResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      path:
+        type: string
+    type: object
+  models.AdvertiseModel:
+    properties:
+      created_at:
+        type: string
+      href:
+        type: string
+      id:
+        type: integer
+      images:
+        type: string
+      is_show:
+        type: boolean
+      title:
+        type: string
+    type: object
+  models.RemoveRequest:
+    properties:
+      id_list:
+        items:
+          type: integer
+        type: array
+    type: object
+  res.ListResponse-models_AdvertiseModel:
+    properties:
+      count:
+        type: integer
+      list:
+        allOf:
+        - $ref: '#/definitions/models.AdvertiseModel'
+        description: wrap to json
+    type: object
+  res.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
+host: 127.0.0.01:8080
+info:
+  contact: {}
+  description: blog_server API Documentation
+  title: blog_server API Documentation
+  version: "1.0"
+paths:
+  /api/advertisement:
+    delete:
+      description: Remove Advertisements
+      parameters:
+      - description: Advertisement idList
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Remove Advertisements
+      tags:
+      - Advertisement Management
+    get:
+      description: Get Advertisement list
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_AdvertiseModel'
+              type: object
+      summary: Get Advertisement list
+      tags:
+      - Advertisement Management
+    post:
+      description: Upload Advertisement
+      parameters:
+      - description: title, url...
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/advertises_api.AdvertiseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Upload Advertisement
+      tags:
+      - Advertisement Management
+  /api/advertisement/:id:
+    put:
+      description: Update Advertisement
+      parameters:
+      - description: some parameters
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/advertises_api.AdvertiseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Update Advertisement
+      tags:
+      - Advertisement Management
+  /api/image_names:
+    get:
+      description: Get Image name list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/images_api.ImageResponse'
+                  type: array
+              type: object
+      summary: Get Image name list
+      tags:
+      - Image Management
+swagger: "2.0"

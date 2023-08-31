@@ -15,6 +15,14 @@ type AdvertiseRequest struct {
 	IsShow bool   `json:"is_show" binding:"required" msg:"Select show or not"`
 }
 
+// AdvertisementUploadView Upload Advertisement
+// @Tags Advertisement Management
+// @Summary Upload Advertisement
+// @Description Upload Advertisement
+// @Param data body AdvertiseRequest    true  "title, url..."
+// @Router /api/advertisement [post]
+// @Produce json
+// @Success 200 {object} res.Response{}
 func (AdvertiseApi) AdvertisementUploadView(c *gin.Context) {
 	var req AdvertiseRequest
 	err := c.ShouldBindJSON(&req)

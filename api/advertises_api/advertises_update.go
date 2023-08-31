@@ -5,9 +5,18 @@ import (
 	"blog_server/models"
 	"blog_server/models/res"
 
+	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
 )
 
+// AdvertisesUpdateView Update Advertisement
+// @Tags Advertisement Management
+// @Summary Update Advertisement
+// @Description Update Advertisement
+// @Param data body AdvertiseRequest   true  "some parameters"
+// @Router /api/advertisement/:id [put]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (AdvertiseApi) AdvertisesUpdateView(c *gin.Context) {
 	var req AdvertiseRequest
 	err := c.ShouldBindJSON(&req)
@@ -23,12 +32,9 @@ func (AdvertiseApi) AdvertisesUpdateView(c *gin.Context) {
 		return
 	}
 
-	err = global.DB.Model(&advertisement).Updates(map[string]any{
-		"title":   req.Title,
-		"href":    req.Href,
-		"images":  req.Images,
-		"is_show": req.IsShow,
-	}).Error
+	// convert struct to map
+	maps := structs.Map(&req)
+	err = global.DB.Model(&advertisement).Updates(maps).Error
 
 	if err != nil {
 		global.Logger.Error(err)

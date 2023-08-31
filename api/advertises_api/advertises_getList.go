@@ -10,6 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AdvertisesGetListView Get Advertisement list
+// @Tags Advertisement Management
+// @Summary Get Advertisement list
+// @Description Get Advertisement list
+// @Param data query models.PageInfo    false  "some parameters.."
+// @Router /api/advertisement [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[models.AdvertiseModel]}
 func (AdvertiseApi) AdvertisesGetListView(c *gin.Context) {
 	var page models.PageInfo
 	err := c.ShouldBindQuery(&page)
