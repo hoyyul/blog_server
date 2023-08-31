@@ -1,4 +1,4 @@
-package images_api
+package image_api
 
 import (
 	"blog_server/global"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ImagesApi) ImagesRemoveListView(c *gin.Context) {
+func (ImageApi) ImageDeleteListView(c *gin.Context) {
 	var req models.RemoveRequest
 	err := c.ShouldBindJSON(&req)
 

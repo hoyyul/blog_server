@@ -1,4 +1,4 @@
-package images_api
+package image_api
 
 import (
 	"blog_server/global"
@@ -14,14 +14,14 @@ type ImageResponse struct {
 	Name string `json:"name"`
 }
 
-// ImageGetNameListView Get Image name list
+// ImageReadNameListViewGet Image name list
 // @Tags Image Management
 // @Summary Get Image name list
 // @Description Get Image name list
 // @Router /api/image_names [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=[]ImageResponse}
-func (ImagesApi) ImageGetNameListView(c *gin.Context) {
+func (ImageApi) ImageReadNameListView(c *gin.Context) {
 	var imageList []ImageResponse
 	global.DB.Model(models.BannerModel{}).Select("id", "path", "name").Scan(&imageList)
 	res.OkWithData(imageList, c)

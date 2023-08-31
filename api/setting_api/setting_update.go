@@ -1,4 +1,4 @@
-package settings_api
+package setting_api
 
 import (
 	"blog_server/config"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (SettingsApi) SettingsUpdateInfoView(c *gin.Context) {
+func (SettingApi) SettingUpdateView(c *gin.Context) {
 	var uri SiteUri
 	err := c.ShouldBindUri(&uri) // load request uri into struct
 

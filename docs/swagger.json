@@ -78,7 +78,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/advertises_api.AdvertiseRequest"
+                            "$ref": "#/definitions/advertise_api.AdvertiseRequest"
                         }
                     }
                 ],
@@ -150,7 +150,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/advertises_api.AdvertiseRequest"
+                            "$ref": "#/definitions/advertise_api.AdvertiseRequest"
                         }
                     }
                 ],
@@ -200,7 +200,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/images_api.ImageResponse"
+                                                "$ref": "#/definitions/image_api.ImageResponse"
                                             }
                                         }
                                     }
@@ -213,7 +213,7 @@
         }
     },
     "definitions": {
-        "advertises_api.AdvertiseRequest": {
+        "advertise_api.AdvertiseRequest": {
             "type": "object",
             "required": [
                 "href",
@@ -236,7 +236,7 @@
                 }
             }
         },
-        "images_api.ImageResponse": {
+        "image_api.ImageResponse": {
             "type": "object",
             "properties": {
                 "id": {

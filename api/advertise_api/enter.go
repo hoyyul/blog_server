@@ -1,4 +1,4 @@
-package advertises_api
+package advertise_api
 
 type AdvertiseApi struct {
 }

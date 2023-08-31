@@ -1,4 +1,4 @@
-package images_api
+package image_api
 
 import (
 	"blog_server/global"
@@ -16,7 +16,7 @@ type ImageUpdateRequest struct {
 /*
 Only change image name in database
 */
-func (ImagesApi) ImagesUpdateName(c *gin.Context) {
+func (ImageApi) ImageUpdateName(c *gin.Context) {
 	var req ImageUpdateRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
@@ -25,13 +25,13 @@ func (ImagesApi) ImagesUpdateName(c *gin.Context) {
 	}
 
 	var image models.BannerModel
-	//check if image exist
+	// check if image exist
 	err = global.DB.Take(&image, req.ID).Error
 	if err != nil {
 		res.FailWithMessage("Image doesn't exist", c)
 	}
 
-	//update image name
+	// update image name
 	err = global.DB.Model(&image).Update("name", req.Name).Error
 	if err != nil {
 		res.FailWithMessage(err.Error(), c)

@@ -1,4 +1,4 @@
-package images_api
+package image_api
 
 import (
 	"blog_server/global"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ImagesApi) ImagesGetListView(c *gin.Context) {
+func (ImageApi) ImageReadListView(c *gin.Context) {
 	var page models.PageInfo
 	err := c.ShouldBindQuery(&page)
 

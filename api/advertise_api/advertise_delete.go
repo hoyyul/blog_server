@@ -1,4 +1,4 @@
-package advertises_api
+package advertise_api
 
 import (
 	"blog_server/global"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AdvertisesRemoveView Remove Advertisements
+// AdvertiseDeletView Remove Advertisements
 // @Tags Advertisement Management
 // @Summary Remove Advertisements
 // @Description Remove Advertisements
@@ -17,7 +17,7 @@ import (
 // @Router /api/advertisement [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
-func (AdvertiseApi) AdvertisesRemoveView(c *gin.Context) {
+func (AdvertiseApi) AdvertiseDeletView(c *gin.Context) {
 	var req models.RemoveRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

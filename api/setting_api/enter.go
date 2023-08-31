@@ -1,6 +1,6 @@
-package settings_api
+package setting_api
 
-type SettingsApi struct {
+type SettingApi struct {
 }
 
 type SiteUri struct {

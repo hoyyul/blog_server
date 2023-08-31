@@ -1,4 +1,4 @@
-package images_api
+package image_api
 
 import (
 	"blog_server/global"
@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ImagesApi) ImagesUploadView(c *gin.Context) {
+func (ImageApi) ImageCreateListView(c *gin.Context) {
 	imageForm, err := c.MultipartForm()
 
 	if err != nil {

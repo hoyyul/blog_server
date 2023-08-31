@@ -1,4 +1,4 @@
-package advertises_api
+package advertise_api
 
 import (
 	"blog_server/global"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AdvertisesUpdateView Update Advertisement
+// AdvertiseUpdateView Update Advertisement
 // @Tags Advertisement Management
 // @Summary Update Advertisement
 // @Description Update Advertisement
@@ -17,7 +17,7 @@ import (
 // @Router /api/advertisement/:id [put]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
-func (AdvertiseApi) AdvertisesUpdateView(c *gin.Context) {
+func (AdvertiseApi) AdvertiseUpdateView(c *gin.Context) {
 	var req AdvertiseRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

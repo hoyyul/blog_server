@@ -84,7 +84,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/advertises_api.AdvertiseRequest"
+                            "$ref": "#/definitions/advertise_api.AdvertiseRequest"
                         }
                     }
                 ],
@@ -156,7 +156,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/advertises_api.AdvertiseRequest"
+                            "$ref": "#/definitions/advertise_api.AdvertiseRequest"
                         }
                     }
                 ],
@@ -206,7 +206,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/images_api.ImageResponse"
+                                                "$ref": "#/definitions/image_api.ImageResponse"
                                             }
                                         }
                                     }
@@ -219,7 +219,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "advertises_api.AdvertiseRequest": {
+        "advertise_api.AdvertiseRequest": {
             "type": "object",
             "required": [
                 "href",
@@ -242,7 +242,7 @@ const docTemplate = `{
                 }
             }
         },
-        "images_api.ImageResponse": {
+        "image_api.ImageResponse": {
             "type": "object",
             "properties": {
                 "id": {

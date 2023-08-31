@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  advertises_api.AdvertiseRequest:
+  advertise_api.AdvertiseRequest:
     properties:
       href:
         type: string
@@ -16,7 +16,7 @@ definitions:
     - is_show
     - title
     type: object
-  images_api.ImageResponse:
+  image_api.ImageResponse:
     properties:
       id:
         type: integer
@@ -134,7 +134,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/advertises_api.AdvertiseRequest'
+          $ref: '#/definitions/advertise_api.AdvertiseRequest'
       produces:
       - application/json
       responses:
@@ -154,7 +154,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/advertises_api.AdvertiseRequest'
+          $ref: '#/definitions/advertise_api.AdvertiseRequest'
       produces:
       - application/json
       responses:
@@ -184,7 +184,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/images_api.ImageResponse'
+                    $ref: '#/definitions/image_api.ImageResponse'
                   type: array
               type: object
       summary: Get Image name list

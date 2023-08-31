@@ -1,4 +1,4 @@
-package advertises_api
+package advertise_api
 
 import (
 	"blog_server/global"
@@ -15,7 +15,7 @@ type AdvertiseRequest struct {
 	IsShow bool   `json:"is_show" binding:"required" msg:"Select show or not"`
 }
 
-// AdvertisementUploadView Upload Advertisement
+// AdvertiseCreateView Upload Advertisement
 // @Tags Advertisement Management
 // @Summary Upload Advertisement
 // @Description Upload Advertisement
@@ -23,7 +23,7 @@ type AdvertiseRequest struct {
 // @Router /api/advertisement [post]
 // @Produce json
 // @Success 200 {object} res.Response{}
-func (AdvertiseApi) AdvertisementUploadView(c *gin.Context) {
+func (AdvertiseApi) AdvertiseCreateView(c *gin.Context) {
 	var req AdvertiseRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

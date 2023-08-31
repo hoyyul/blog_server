@@ -1,4 +1,4 @@
-package settings_api
+package setting_api
 
 import (
 	"blog_server/global"
@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (SettingsApi) SettingsGetInfoView(c *gin.Context) {
+func (SettingApi) SettingReadView(c *gin.Context) {
 	var uri SiteUri
 	err := c.ShouldBindUri(&uri)
 

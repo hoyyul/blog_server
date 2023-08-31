@@ -1,4 +1,4 @@
-package advertises_api
+package advertise_api
 
 import (
 	"blog_server/global"
@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AdvertisesGetListView Get Advertisement list
+// AdvertiseReadListView Get Advertisement list
 // @Tags Advertisement Management
 // @Summary Get Advertisement list
 // @Description Get Advertisement list
@@ -18,7 +18,7 @@ import (
 // @Router /api/advertisement [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[models.AdvertiseModel]}
-func (AdvertiseApi) AdvertisesGetListView(c *gin.Context) {
+func (AdvertiseApi) AdvertiseReadListView(c *gin.Context) {
 	var page models.PageInfo
 	err := c.ShouldBindQuery(&page)
 
@@ -35,7 +35,7 @@ func (AdvertiseApi) AdvertisesGetListView(c *gin.Context) {
 	}
 
 	// get paginated advertisement list
-	advertisesList, count, err := common_service.FetchPaginatedData[models.AdvertiseModel](models.AdvertiseModel{IsShow: isShow}, common_service.Option{
+	advertiseList, count, err := common_service.FetchPaginatedData[models.AdvertiseModel](models.AdvertiseModel{IsShow: isShow}, common_service.Option{
 		PageInfo: page,
 		Debug:    true,
 	})
@@ -44,5 +44,5 @@ func (AdvertiseApi) AdvertisesGetListView(c *gin.Context) {
 		res.FailWithMessage(err.Error(), c)
 		return
 	}
-	res.OkWithList(advertisesList, count, c)
+	res.OkWithList(advertiseList, count, c)
 }
