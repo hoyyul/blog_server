@@ -15,14 +15,14 @@ type ImageSort struct {
 }
 
 type MenuRequest struct {
-	MenuTitle     string      `json:"menu_title" binding:"required" msg:"Enter menu title"`
-	MenuTitleEn   string      `json:"menu_title_en" binding:"required" msg:"Enter English menu title"`
+	Title         string      `json:"title" binding:"required" msg:"Enter a menu title"`
+	Path          string      `json:"path" binding:"required" msg:"Enter a menu path"`
 	Slogan        string      `json:"slogan"`
 	Abstract      ctype.Array `json:"abstract"`
-	AbstractTime  int         `json:"abstract_time"`
+	AbstractTime  int         `json:"abstract_time"` // time interval to swicth images
 	BannerTime    int         `json:"banner_time"`
-	Sort          int         `json:"sort" binding:"required" msg:"Enter menu sort"`
-	ImageSortList []ImageSort `json:"image_sort_list"`
+	Sort          int         `json:"sort" binding:"required" msg:"Enter a menu sort"` // menu sort
+	ImageSortList []ImageSort `json:"image_sort_list"`                                 // image sort
 }
 
 func (MenuApi) MenuCreateView(c *gin.Context) {
@@ -33,10 +33,18 @@ func (MenuApi) MenuCreateView(c *gin.Context) {
 		return
 	}
 
+	// check if menu already exists
+	var menuList []models.MenuModel
+	count := global.DB.Find(&menuList, "title = ? or path = ?", req.Title, req.Path).RowsAffected
+	if count > 0 {
+		res.FailWithMessage("Menu already exists", c)
+		return
+	}
+
 	// save data to menu table
 	menuModel := models.MenuModel{
-		MenuTitle:    req.MenuTitle,
-		MenuTitleEn:  req.MenuTitleEn,
+		Title:        req.Title,
+		Path:         req.Path,
 		Slogan:       req.Slogan,
 		Abstract:     req.Abstract,
 		AbstractTime: req.AbstractTime,

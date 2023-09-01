@@ -2,11 +2,10 @@ package models
 
 import "blog_server/models/ctype"
 
-// MenuModel 菜单表
 type MenuModel struct {
 	MODEL
-	MenuTitle    string        `gorm:"size:32" json:"menu_title"`
-	MenuTitleEn  string        `gorm:"size:32" json:"menu_title_en"`
+	Title        string        `gorm:"size:32" json:"title"`
+	Path         string        `gorm:"size:32" json:"path"`
 	Slogan       string        `gorm:"size:64" json:"slogan"`
 	Abstract     ctype.Array   `gorm:"type:string" json:"abstract"`
 	AbstractTime int           `json:"abstract_time"`
