@@ -29,6 +29,7 @@ func main() {
 	option := flag.Parse()
 	if flag.IsWebStop(option) {
 		flag.RunOption(option)
+		return
 	}
 
 	addr := global.Config.System.Addr()

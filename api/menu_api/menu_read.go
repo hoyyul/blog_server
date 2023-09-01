@@ -6,6 +6,7 @@ import (
 	"blog_server/models/res"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm/clause"
 )
 
 func (MenuApi) MenuGetView(c *gin.Context) {
@@ -19,7 +20,7 @@ func (MenuApi) MenuGetView(c *gin.Context) {
 	}
 	// search menu-banner table
 	var menuBanners []models.MenuBannerModel
-	global.DB.Preload("BannerModel").Order("sort desc").Find(&menuBanners, "menu_id = ?", id)
+	global.DB.Preload(clause.Associations).Order("sort desc").Find(&menuBanners, "menu_id = ?", id)
 	var banners = make([]Banner, 0)
 	for _, record := range menuBanners {
 		if menuModel.ID != record.MenuID {
