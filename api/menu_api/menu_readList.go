@@ -29,7 +29,7 @@ func (MenuApi) MenuReadListView(c *gin.Context) {
 	global.DB.Preload(clause.Associations).Order("sort desc").Find(&menuBanners, "menu_id in ?", menuIDList)
 	var menus []MenuResponse
 	for _, model := range menuList {
-		var banners []Banner
+		var banners = make([]Banner, 0)
 		for _, record := range menuBanners {
 			if model.ID == record.MenuID {
 				continue

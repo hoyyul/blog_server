@@ -15,14 +15,14 @@ type ImageSort struct {
 }
 
 type MenuRequest struct {
-	Title         string      `json:"title" binding:"required" msg:"Enter a menu title"`
-	Path          string      `json:"path" binding:"required" msg:"Enter a menu path"`
-	Slogan        string      `json:"slogan"`
-	Abstract      ctype.Array `json:"abstract"`
-	AbstractTime  int         `json:"abstract_time"` // time interval to swicth images
-	BannerTime    int         `json:"banner_time"`
-	Sort          int         `json:"sort" binding:"required" msg:"Enter a menu sort"` // menu sort
-	ImageSortList []ImageSort `json:"image_sort_list"`                                 // image sort
+	Title         string      `json:"title" binding:"required" msg:"Enter a menu title" structs:"title"`
+	Path          string      `json:"path" binding:"required" msg:"Enter a menu path" structs:"path"`
+	Slogan        string      `json:"slogan" structs:"slogan"`
+	Abstract      ctype.Array `json:"abstract" structs:"abstract"`
+	AbstractTime  int         `json:"abstract_time" structs:"abstract_time"` // time interval to swicth images
+	BannerTime    int         `json:"banner_time" structs:"banner_time"`
+	Sort          int         `json:"sort" binding:"required" msg:"Enter a menu sort" structs:"sort"` // menu sort
+	ImageSortList []ImageSort `json:"image_sort_list" structs:"-"`                                    // image sort
 }
 
 func (MenuApi) MenuCreateView(c *gin.Context) {
