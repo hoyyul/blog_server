@@ -6,7 +6,7 @@ import (
 
 // payload in custom claim
 type JwtPayLoad struct {
-	Username string `json:"username"`
+	//Username string `json:"username"`
 	NickName string `json:"nick_name"`
 	Role     int    `json:"role"` // 1.admin 2. user
 	UserID   uint   `json:"user_id"`
