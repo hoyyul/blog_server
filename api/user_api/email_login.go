@@ -4,8 +4,8 @@ import (
 	"blog_server/global"
 	"blog_server/models"
 	"blog_server/models/res"
-	"blog_server/utils"
 	"blog_server/utils/jwts"
+	"blog_server/utils/pwd"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,7 +32,7 @@ func (UserApi) EmailLoginView(c *gin.Context) {
 	}
 
 	// validate password
-	isCheck := utils.CheckPwd(userModel.Password, req.Password)
+	isCheck := pwd.CheckPwd(userModel.Password, req.Password)
 	if !isCheck {
 		res.FailWithMessage("Username or password incorrect", c)
 		return

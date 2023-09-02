@@ -4,7 +4,7 @@ import (
 	"blog_server/global"
 	"blog_server/models"
 	"blog_server/models/ctype"
-	"blog_server/utils"
+	"blog_server/utils/pwd"
 	"fmt"
 )
 
@@ -44,7 +44,7 @@ func CreateUser(permissions string) {
 	}
 
 	// get a hash value
-	hashPwd := utils.HashPwd(password)
+	hashPwd := pwd.HashPwd(password)
 	role := ctype.PermissionUser
 	if permissions == "admin" {
 		role = ctype.PermissionAdmin

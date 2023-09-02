@@ -10,7 +10,7 @@ import (
 // generate a token with secret key
 func GenerateToken(user JwtPayLoad) (string, error) {
 	MySecret = []byte(global.Config.Jwt.SecretKey)
-	claim := CustomClaims{
+	claim := CustomClaim{
 		user,
 		jwt.StandardClaims{
 			ExpiresAt: jwt.At(time.Now().Add(time.Hour * time.Duration(global.Config.Jwt.Expires))), // expire time

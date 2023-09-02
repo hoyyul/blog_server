@@ -2,10 +2,10 @@ package routers
 
 import "blog_server/api"
 
-func (router RouterGroup) AdvertiseRouter() {
+func (rg RouterGroup) AdvertiseRouter() {
 	app := api.ApiGroupApp.AdvertiseApi
-	router.POST("advertisement", app.AdvertiseCreateView)
-	router.GET("advertisement", app.AdvertiseReadListView)
-	router.PUT("advertisement/:id", app.AdvertiseUpdateView)
-	router.DELETE("advertisement", app.AdvertiseDeletView)
+	rg.POST("advertisement", app.AdvertiseCreateView)
+	rg.GET("advertisement", app.AdvertiseReadListView)
+	rg.PUT("advertisement/:id", app.AdvertiseUpdateView)
+	rg.DELETE("advertisement", app.AdvertiseDeletView)
 }

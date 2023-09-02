@@ -14,7 +14,7 @@ type JwtPayLoad struct {
 
 var MySecret []byte
 
-type CustomClaims struct {
+type CustomClaim struct {
 	JwtPayLoad
 	jwt.StandardClaims
 }

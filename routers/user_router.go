@@ -1,8 +1,12 @@
 package routers
 
-import "blog_server/api"
+import (
+	"blog_server/api"
+	"blog_server/middleware"
+)
 
-func (router RouterGroup) UserRouter() {
+func (rg RouterGroup) UserRouter() {
 	app := api.ApiGroupApp.UserApi
-	router.POST("email_login", app.EmailLoginView)
+	rg.POST("email_login", app.EmailLoginView)
+	rg.GET("users", middleware.CheckAuthToken(), app.UserListView)
 }

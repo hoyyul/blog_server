@@ -9,16 +9,16 @@ import (
 )
 
 // get claim with secret key and token
-func ParseToken(tokenStr string) (*CustomClaims, error) {
+func ParseToken(tokenStr string) (*CustomClaim, error) {
 	MySecret = []byte(global.Config.Jwt.SecretKey)
-	token, err := jwt.ParseWithClaims(tokenStr, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenStr, &CustomClaim{}, func(token *jwt.Token) (interface{}, error) {
 		return MySecret, nil
 	})
 	if err != nil {
 		global.Logger.Error(fmt.Sprintf("token parse err: %s", err.Error()))
 		return nil, err
 	}
-	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
+	if claims, ok := token.Claims.(*CustomClaim); ok && token.Valid {
 		return claims, nil
 	}
 	return nil, errors.New("invalid token")
