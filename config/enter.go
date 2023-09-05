@@ -10,4 +10,5 @@ type Config struct {
 	AWS      AWS      `yaml:"aws"`
 	Email    Email    `yaml:"email"`
 	Jwt      Jwt      `yaml:"jwt"`
+	Redis    Redis    `yaml:"redis"`
 }
