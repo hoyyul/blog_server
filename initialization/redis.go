@@ -8,7 +8,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func ConnectRedis() *redis.Client {
+func InitRedis() *redis.Client {
 	return ConnectRedisDB(0)
 }
 

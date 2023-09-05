@@ -8,7 +8,8 @@ import (
 func (rg RouterGroup) UserRouter() {
 	app := api.ApiGroupApp.UserApi
 	rg.POST("email_login", app.EmailLoginView)
-	rg.GET("users", middleware.CheckAuthToken(), app.UserListView)
-	rg.PUT("user_role", middleware.CheckAdminToken(), app.UserUpdateView)
+	rg.POST("logout", middleware.CheckAuthToken(), app.UserLogoutView)
+	rg.GET("user", middleware.CheckAuthToken(), app.UserListView)
+	rg.PUT("user", middleware.CheckAdminToken(), app.UserUpdateView)
 	rg.PUT("user_password", middleware.CheckAuthToken(), app.UserUpdatePassword)
 }

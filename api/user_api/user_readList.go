@@ -21,13 +21,13 @@ func (UserApi) UserListView(c *gin.Context) {
 		return
 	}
 
-	// paginating
+	// get paginated list
 	var users []models.UserModel
 	list, count, _ := common_service.FetchPaginatedData[models.UserModel](models.UserModel{}, common_service.Option{
 		PageInfo: page,
 	})
 
-	// edit masked info
+	// mask information
 	for _, user := range list {
 		if ctype.Role(claim.Role) != ctype.PermissionAdmin {
 			user.UserName = ""

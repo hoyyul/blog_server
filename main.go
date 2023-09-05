@@ -18,13 +18,16 @@ func main() {
 	// Initialize configuration settings
 	initialization.InitConf()
 
-	//Initialize logger
+	// Initialize logger
 	global.Logger = initialization.InitLogger()
 
-	//Connect database
+	// Connect databaseq
 	global.DB = initialization.InitGorm()
 
-	//Initialize router
+	// Connect redis
+	global.Redis = initialization.InitRedis()
+
+	// Initialize router
 	router := routers.InitRouter()
 	option := flag.Parse()
 	if flag.IsWebStop(option) {
