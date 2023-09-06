@@ -44,12 +44,12 @@ aws:
   access_key: AKIA5TVSSLD6IUZZVGIC
   secret_key: 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
 email:
-  host: .qq.com
+  host: smtp.qq.com
   port: 465
-  user: xxx@qq.com
-  password: xxx
-  default_from_email: 不知道
-  use_ssl: false
+  sender_email: 1085494156@qq.com
+  password: hsnpmjpreqjxjigb
+  sender_name: hallu
+  use_ssl: true
   user_tls: false
 jwt:
   secret_key: xxx
