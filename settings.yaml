@@ -46,7 +46,7 @@ aws:
 email:
   host: smtp.qq.com
   port: 465
-  sender_email: 1085494156@qq.com
+  sender_email: 1xxxxxxx6@qq.com
   password: hsnpmjpreqjxjigb
   sender_name: hallu
   use_ssl: true

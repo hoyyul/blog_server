@@ -16,6 +16,7 @@ func (rg RouterGroup) UserRouter() {
 	rg.POST("email_login", app.EmailLoginView)
 	rg.POST("logout", middleware.CheckAuthToken(), app.UserLogoutView)
 	rg.POST("user_bind_email", middleware.CheckAuthToken(), app.UserBindEmailView)
+	rg.POST("login", app.QQLoginView)
 	rg.GET("user", middleware.CheckAuthToken(), app.UserListView)
 	rg.PUT("user", middleware.CheckAdminToken(), app.UserUpdateView)
 	rg.PUT("user_password", middleware.CheckAuthToken(), app.UserUpdatePassword)
