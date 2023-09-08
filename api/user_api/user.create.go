@@ -11,10 +11,10 @@ import (
 )
 
 type UserCreateRequest struct {
-	NickName string     `json:"nick_name" binding:"required" msg:"请输入昵称"`  // 昵称
-	UserName string     `json:"user_name" binding:"required" msg:"请输入用户名"` // 用户名
-	Password string     `json:"password" binding:"required" msg:"请输入密码"`   // 密码
-	Role     ctype.Role `json:"role" binding:"required" msg:"请选择权限"`       // 权限  1 管理员  2 普通用户  3 游客
+	NickName string     `json:"nick_name" binding:"required" msg:"Enter a nickname"`
+	UserName string     `json:"user_name" binding:"required" msg:"Enter a username"`
+	Password string     `json:"password" binding:"required" msg:"Enter your password"`
+	Role     ctype.Role `json:"role" binding:"required" msg:"Enter the user rule"`
 }
 
 func (UserApi) UserCreateView(c *gin.Context) {
