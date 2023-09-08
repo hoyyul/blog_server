@@ -2,10 +2,10 @@ package routers
 
 import "blog_server/api"
 
-func (router RouterGroup) TagRouter() {
+func (rg RouterGroup) TagRouter() {
 	app := api.ApiGroupApp.TagApi
-	router.POST("tags", app.TagCreateView)
-	router.GET("tags", app.TagReadListView)
-	router.PUT("tags/:id", app.TagUpdateView)
-	router.DELETE("tags", app.TagDeleteListView)
+	rg.POST("tags", app.TagCreateView)
+	rg.GET("tags", app.TagReadListView)
+	rg.PUT("tags/:id", app.TagUpdateView)
+	rg.DELETE("tags", app.TagDeleteListView)
 }

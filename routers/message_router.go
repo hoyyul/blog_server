@@ -2,9 +2,12 @@ package routers
 
 import (
 	"blog_server/api"
+	"blog_server/middleware"
 )
 
-func (router RouterGroup) MessageRouter() {
+func (rg RouterGroup) MessageRouter() {
 	app := api.ApiGroupApp.MessageApi
-	router.POST("messages", app.MessageCreateView)
+	rg.POST("message", app.MessageCreateView)
+	rg.GET("message_list", app.MessageReadListView)
+	rg.GET("message", middleware.CheckAuthToken(), app.MessageReadUserView)
 }
