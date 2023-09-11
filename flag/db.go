@@ -7,7 +7,7 @@ import (
 
 func MigrateTables() {
 	var err error
-	global.DB.SetupJoinTable(&models.UserModel{}, "UserCollections", &models.UserArticleCollectionModels{}) //db.Preload("UserCollections").Find(&user, userID)
+	//global.DB.SetupJoinTable(&models.UserModel{}, "UserCollections", &models.UserArticleCollectionModels{})
 	global.DB.SetupJoinTable(&models.MenuModel{}, "Banners", &models.MenuBannerModel{})
 
 	err = global.DB.Set("gorm:table_options", "ENGINE=InnoDB").
@@ -18,8 +18,6 @@ func MigrateTables() {
 			&models.AdvertiseModel{},
 			&models.UserModel{},
 			&models.CommentModel{},
-			&models.ArticleModel{},
-			&models.UserArticleCollectionModels{},
 			&models.MenuModel{},
 			&models.MenuBannerModel{},
 			&models.FeedbackModel{},

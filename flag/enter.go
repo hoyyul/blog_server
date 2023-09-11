@@ -7,21 +7,21 @@ import (
 )
 
 type Option struct {
-	Version bool
-	DB      bool
-	User    string
+	DB   bool
+	User string
+	ES   string
 }
 
 func Parse() Option {
-	version := sys_flag.Bool("v", false, "version")
 	db := sys_flag.Bool("db", false, "Initialize database")
 	user := sys_flag.String("u", "", "Create user")
+	es := sys_flag.String("es", "", "es operation")
 
 	sys_flag.Parse()
 	return Option{
-		*version,
 		*db,
 		*user,
+		*es,
 	}
 }
 
@@ -49,6 +49,10 @@ func RunOption(op Option) {
 	}
 	if op.User == "user" || op.User == "admin" {
 		CreateUser(op.User)
+		return
+	}
+	if op.ES == "create" {
+		EsCreateIndex()
 		return
 	}
 	sys_flag.Usage()

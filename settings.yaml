@@ -60,3 +60,8 @@ redis:
   port: 6379
   password: ""
   pool_size: 100
+es:
+  host: "http://127.0.0.1"
+  port: 9200
+  user:
+  password:

@@ -10,7 +10,7 @@ import (
 )
 
 // find chat history between user a and user b
-func (MessageApi) MessageRecordView(c *gin.Context) {
+func (MessageApi) MessageReadRecordView(c *gin.Context) {
 	var cr MessageRecordRequest
 	err := c.ShouldBindJSON(&cr)
 	if err != nil {

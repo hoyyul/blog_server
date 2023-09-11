@@ -21,14 +21,18 @@ func main() {
 	// Initialize logger
 	global.Logger = initialization.InitLogger()
 
-	// Connect databaseq
+	// Connect database
 	global.DB = initialization.InitGorm()
 
 	// Connect redis
 	global.Redis = initialization.InitRedis()
 
+	// Connect elasticSearch
+	global.ESClient = initialization.EsConnect()
+
 	// Initialize router
 	router := routers.InitRouter()
+
 	option := flag.Parse()
 	if flag.IsWebStop(option) {
 		flag.RunOption(option)
