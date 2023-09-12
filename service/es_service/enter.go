@@ -5,6 +5,7 @@ import (
 	"blog_server/models"
 	"context"
 	"encoding/json"
+	"errors"
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
@@ -78,5 +79,27 @@ func GetDetail(id string) (model models.ArticleModel, err error) {
 		return
 	}
 	model.ID = res.Id
+	return
+}
+
+func GetDetailByKeyword(key string) (model models.ArticleModel, err error) {
+	res, err := global.ESClient.Search().
+		Index(models.ArticleModel{}.Index()).
+		Query(elastic.NewTermQuery("keyword", key)).
+		Size(1).
+		Do(context.Background())
+	if err != nil {
+		return
+	}
+	if res.Hits.TotalHits.Value == 0 {
+		return model, errors.New("article doesn't exist")
+	}
+	hit := res.Hits.Hits[0]
+
+	err = json.Unmarshal(hit.Source, &model)
+	if err != nil {
+		return
+	}
+	model.ID = hit.Id
 	return
 }

@@ -94,6 +94,7 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		CreatedAt:    now,
 		UpdatedAt:    now,
 		Title:        req.Title,
+		Keyword:      req.Title,
 		Abstract:     req.Abstract,
 		Content:      req.Content,
 		UserID:       userID,
@@ -107,6 +108,11 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		Tags:         req.Tags,
 	}
 
+	// create article
+	if article.ISExistData() {
+		res.FailWithMessage("Article already exists", c)
+		return
+	}
 	err = article.Create()
 	if err != nil {
 		global.Logger.Error(err)

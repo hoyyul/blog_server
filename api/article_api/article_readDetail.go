@@ -25,3 +25,22 @@ func (ArticleApi) ArticleReadDetailView(c *gin.Context) {
 	}
 	res.OkWithData(model, c)
 }
+
+type ArticleDetailRequest struct {
+	Title string `json:"title" form:"title"`
+}
+
+func (ArticleApi) ArticleReadDetailByTitleView(c *gin.Context) {
+	var req ArticleDetailRequest
+	err := c.ShouldBindQuery(&req)
+	if err != nil {
+		res.FailWithCode(res.ParameterError, c)
+		return
+	}
+	model, err := es_service.GetDetailByKeyword(req.Title)
+	if err != nil {
+		res.FailWithMessage(err.Error(), c)
+		return
+	}
+	res.OkWithData(model, c)
+}

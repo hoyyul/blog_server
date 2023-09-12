@@ -10,4 +10,5 @@ func (rg RouterGroup) ArticleRouter() {
 	rg.POST("article", middleware.CheckAuthToken(), app.ArticleCreateView)
 	rg.GET("article", app.ArticleReadListView)
 	rg.GET("article/:id", app.ArticleReadDetailView)
+	rg.GET("article/detail", app.ArticleReadDetailByTitleView)
 }

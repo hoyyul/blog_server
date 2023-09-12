@@ -5,6 +5,7 @@ import (
 	"blog_server/models/ctype"
 	"context"
 
+	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
 )
 
@@ -14,6 +15,7 @@ type ArticleModel struct {
 	UpdatedAt string `json:"updated_at"`
 
 	Title    string `gorm:"size:32" json:"title"`
+	Keyword  string `json:"keyword,omit(list)"`
 	Abstract string `json:"abstract"`
 	Content  string `json:"content,omit(list)"`
 
@@ -48,6 +50,9 @@ func (ArticleModel) Mapping() string {
     "properties": {
       "title": { 
         "type": "text"
+      },
+	  "keyword": { 
+        "type": "keyword"
       },
       "abstract": { 
         "type": "text"
@@ -170,4 +175,20 @@ func (a *ArticleModel) Create() (err error) {
 	}
 	a.ID = indexResponse.Id
 	return nil
+}
+
+func (a ArticleModel) ISExistData() bool {
+	res, err := global.ESClient.
+		Search(a.Index()).
+		Query(elastic.NewTermQuery("keyword", a.Title)).
+		Size(1).
+		Do(context.Background())
+	if err != nil {
+		logrus.Error(err.Error())
+		return false
+	}
+	if res.Hits.TotalHits.Value > 0 {
+		return true
+	}
+	return false
 }
