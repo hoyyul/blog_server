@@ -15,7 +15,7 @@ type ArticleModel struct {
 
 	Title    string `gorm:"size:32" json:"title"`
 	Abstract string `json:"abstract"`
-	Content  string `json:"content"`
+	Content  string `json:"content,omit(list)"`
 
 	LookCount     int `json:"look_count"`
 	CommentCount  int `json:"comment_count"`
@@ -27,8 +27,8 @@ type ArticleModel struct {
 	UserAvatar   string `json:"user_avatar"`
 
 	Category string `gorm:"size:20" json:"category"`
-	Source   string `json:"source"`
-	Link     string `json:"link"`
+	Source   string `json:"source,omit(list)"`
+	Link     string `json:"link,omit(list)"`
 
 	BannerID  uint   `json:"cover_id"`
 	BannerUrl string `json:"banner_url"`

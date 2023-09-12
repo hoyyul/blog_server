@@ -6,9 +6,14 @@ import (
 	"blog_server/models/ctype"
 	"blog_server/models/res"
 	"blog_server/utils/jwts"
+	"math/rand"
+	"strings"
 	"time"
 
+	md "github.com/JohannesKaufmann/html-to-markdown"
+	"github.com/PuerkitoBio/goquery"
 	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
 )
 
 type ArticleRequest struct {
@@ -34,6 +39,18 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 	userID := claim.UserID
 	userNickName := claim.NickName
 
+	// remove script from html
+	unsafe := blackfriday.MarkdownCommon([]byte(req.Content))
+	doc, _ := goquery.NewDocumentFromReader(strings.NewReader(string(unsafe)))
+	nodes := doc.Find("script").Nodes
+	if len(nodes) > 0 {
+		doc.Find("script").Remove()
+		converter := md.NewConverter("", true, nil)
+		html, _ := doc.Html()
+		markdown, _ := converter.ConvertString(html)
+		req.Content = markdown
+	}
+
 	if req.Abstract == "" {
 		// get chinese character
 		abs := []rune(req.Content)
@@ -42,6 +59,19 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		} else {
 			req.Abstract = string(abs)
 		}
+	}
+
+	// random select a banner if none
+	if req.BannerID == 0 {
+		var bannerIDList []uint
+		global.DB.Model(models.BannerModel{}).Select("id").Scan(&bannerIDList)
+		if len(bannerIDList) == 0 {
+			res.FailWithMessage("No banner data", c)
+			return
+		}
+		s := rand.NewSource(time.Now().UnixNano())
+		r := rand.New(s)
+		req.BannerID = bannerIDList[r.Intn(len(bannerIDList))]
 	}
 
 	// find banner
