@@ -76,16 +76,16 @@ func (ArticleModel) Mapping() string {
         "type": "integer"
       },
       "user_nick_name": { 
-        "type": "text"
+        "type": "keyword"
       },
       "user_avatar": { 
-        "type": "text"
+        "type": "keyword"
       },
       "category": { 
-        "type": "text"
+        "type": "keyword"
       },
       "source": { 
-        "type": "text"
+        "type": "keyword"
       },
       "link": { 
         "type": "text"
@@ -94,8 +94,11 @@ func (ArticleModel) Mapping() string {
         "type": "integer"
       },
       "banner_url": { 
-        "type": "text"
-      },
+        "type": "keyword"
+	  },
+	  "tags": { 
+	    "type": "keyword"
+	  },
       "created_at":{
         "type": "date",
         "null_value": "null",

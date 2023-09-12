@@ -23,5 +23,14 @@ func (ArticleApi) ArticleReadListView(c *gin.Context) {
 		return
 	}
 
-	res.OkWithList(filter.Omit("list", list), int64(count), c)
+	// list can't be {}
+	data := filter.Omit("list", list) // ignore field with "omit(list)"
+	_list, _ := data.(filter.Filter)
+	if string(_list.MustMarshalJSON()) == "{}" {
+		list = make([]models.ArticleModel, 0)
+		res.OkWithList(list, int64(count), c)
+		return
+	}
+
+	res.OkWithList(data, int64(count), c)
 }
