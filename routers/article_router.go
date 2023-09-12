@@ -11,4 +11,5 @@ func (rg RouterGroup) ArticleRouter() {
 	rg.GET("article", app.ArticleReadListView)
 	rg.GET("article/:id", app.ArticleReadDetailView)
 	rg.GET("article/detail", app.ArticleReadDetailByTitleView)
+	rg.GET("article/calendar", app.ArticleReadCalendarCountView)
 }
