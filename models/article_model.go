@@ -158,3 +158,16 @@ func (a ArticleModel) RemoveIndex() error {
 	logrus.Info("Delete index successfully")
 	return nil
 }
+
+// create document to a index
+func (a *ArticleModel) Create() (err error) {
+	indexResponse, err := global.ESClient.Index().
+		Index(a.Index()).
+		BodyJson(a).Do(context.Background())
+	if err != nil {
+		logrus.Error(err.Error())
+		return err
+	}
+	a.ID = indexResponse.Id
+	return nil
+}
