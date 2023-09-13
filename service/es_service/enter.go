@@ -6,36 +6,76 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"strings"
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
 )
 
-func GetList(key string, page, limit int) (articleList []models.ArticleModel, count int, err error) {
-	boolSearch := elastic.NewBoolQuery()
-	from := page
+type Option struct {
+	models.PageInfo          // pagnation info
+	Fields          []string // search article by title, abstract, content
+	Tag             string   // search article by tag
+}
 
-	// search key from title
-	if key != "" {
+type SortField struct {
+	Field     string
+	Ascending bool
+}
+
+func (o *Option) GetForm() int {
+	if o.Page == 0 {
+		o.Page = 1
+	}
+	if o.Limit == 0 {
+		o.Limit = 10
+	}
+	return (o.Page - 1) * o.Limit
+}
+
+func GetList(option Option) (articleList []models.ArticleModel, count int, err error) {
+	boolSearch := elastic.NewBoolQuery()
+
+	// search article by title, abstract, content
+	if option.Key != "" {
 		boolSearch.Must(
-			elastic.NewMatchQuery("title", key),
+			elastic.NewMultiMatchQuery(option.Key, option.Fields...),
 		)
 	}
 
-	// set default value
-	if limit == 0 {
-		limit = 10
+	// search article by tag
+	if option.Tag != "" {
+		boolSearch.Must(
+			elastic.NewMultiMatchQuery(option.Tag, "tags"),
+		)
 	}
-	if from == 0 {
-		from = 1
+
+	// sort setting
+	// default
+	sortField := SortField{
+		Field:     "created_at",
+		Ascending: false,
+	}
+	if option.Sort != "" {
+		_list := strings.Split(option.Sort, " ")
+		if len(_list) == 2 && (_list[1] == "desc" || _list[1] == "asc") {
+			sortField.Field = _list[0]
+			if _list[1] == "desc" {
+				sortField.Ascending = false
+			}
+			if _list[1] == "asc" {
+				sortField.Ascending = true
+			}
+		}
 	}
 
 	//search
 	res, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
 		Query(boolSearch).
-		From((from - 1) * limit).
-		Size(limit).
+		Highlight(elastic.NewHighlight().Field("title")). // highlight title if search by title
+		From(option.GetForm()).
+		Size(option.Limit).
 		Do(context.Background())
 	if err != nil {
 		logrus.Error(err.Error())
@@ -60,7 +100,12 @@ func GetList(key string, page, limit int) (articleList []models.ArticleModel, co
 			continue
 		}
 
-		article.ID = hit.Id
+		// hightlight title
+		if title, ok := hit.Highlight["title"]; ok {
+			article.Title = title[0]
+		}
+
+		article.ID = hit.Id // id = _id
 		articleList = append(articleList, article)
 	}
 	return articleList, count, err

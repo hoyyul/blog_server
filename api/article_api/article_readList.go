@@ -10,15 +10,24 @@ import (
 	"github.com/liu-cn/json-filter/filter"
 )
 
+type ArticleSearchRequest struct {
+	models.PageInfo
+	Tag string `json:"tag" form:"tag"`
+}
+
 func (ArticleApi) ArticleReadListView(c *gin.Context) {
-	var req models.PageInfo
+	var req ArticleSearchRequest
 	if err := c.ShouldBindQuery(&req); err != nil {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
 
-	// paginate search
-	list, count, err := es_service.GetList(req.Key, req.Page, req.Limit)
+	// paginate search by title + tag
+	list, count, err := es_service.GetList(es_service.Option{
+		PageInfo: req.PageInfo,
+		Fields:   []string{"title", "content"},
+		Tag:      req.Tag,
+	})
 	if err != nil {
 		global.Logger.Error(err)
 		res.OkWithMessage("Failed to get list", c)
