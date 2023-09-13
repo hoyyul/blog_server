@@ -3,7 +3,6 @@ package article_api
 import (
 	"blog_server/global"
 	"blog_server/models"
-	"blog_server/models/ctype"
 	"blog_server/models/res"
 	"blog_server/utils/jwts"
 	"math/rand"
@@ -17,14 +16,14 @@ import (
 )
 
 type ArticleRequest struct {
-	Title    string      `json:"title" binding:"required" msg:"Enter a title"`
-	Abstract string      `json:"abstract"`
-	Content  string      `json:"content" binding:"required" msg:"Enter the content"`
-	Category string      `json:"category"`
-	Source   string      `json:"source"`
-	Link     string      `json:"link"`
-	BannerID uint        `json:"banner_id"`
-	Tags     ctype.Array `json:"tags"`
+	Title    string   `json:"title" binding:"required" msg:"Enter a title"`
+	Abstract string   `json:"abstract"`
+	Content  string   `json:"content" binding:"required" msg:"Enter the content"`
+	Category string   `json:"category"`
+	Source   string   `json:"source"`
+	Link     string   `json:"link"`
+	BannerID uint     `json:"banner_id"`
+	Tags     []string `json:"tags"`
 }
 
 func (ArticleApi) ArticleCreateView(c *gin.Context) {

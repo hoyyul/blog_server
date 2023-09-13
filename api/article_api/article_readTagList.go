@@ -51,7 +51,7 @@ func (ArticleApi) ArticleReadTagListView(c *gin.Context) {
 	// get total count CountAggregation
 	result, _ := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
-		Aggregation("tags", elastic.NewValueCountAggregation().Field("tags")).
+		Aggregation("tags", elastic.NewCardinalityAggregation().Field("tags")). // NewCardinalityAggregation() no repeat
 		Size(0).
 		Do(context.Background())
 	cTag, _ := result.Aggregations.Cardinality("tags")
@@ -60,7 +60,7 @@ func (ArticleApi) ArticleReadTagListView(c *gin.Context) {
 	// tags, keyword, page Aggregation
 	agg := elastic.NewTermsAggregation().Field("tags")
 	agg.SubAggregation("articles", elastic.NewTermsAggregation().Field("keyword"))
-	agg.SubAggregation("page", elastic.NewBucketSortAggregation().From(offset).Size(req.Limit))
+	agg.SubAggregation("page", elastic.NewBucketSortAggregation().From(offset).Size(req.Limit)) // pagnation
 	query := elastic.NewBoolQuery()
 
 	result, _ = global.ESClient.
@@ -73,7 +73,7 @@ func (ArticleApi) ArticleReadTagListView(c *gin.Context) {
 	// save data to list
 	var tagType TagsType
 	var tagList = make([]*TagsResponse, 0)
-	_ = json.Unmarshal(result.Aggregations["tags"], &tagType)
+	_ = json.Unmarshal(result.Aggregations["tags"], &tagType) // save json to struct
 	var tagStringList []string
 
 	for _, bucket := range tagType.Buckets {
@@ -86,8 +86,8 @@ func (ArticleApi) ArticleReadTagListView(c *gin.Context) {
 		// save tag
 		tagList = append(tagList, &TagsResponse{
 			Tag:           bucket.Key,
-			Count:         bucket.DocCount,
-			ArticleIDList: articleList,
+			Count:         bucket.DocCount, // total count for a tag
+			ArticleIDList: articleList,     // artical by title(keyword)
 		})
 		tagStringList = append(tagStringList, bucket.Key)
 	}
