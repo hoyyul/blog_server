@@ -60,7 +60,7 @@ func (ArticleApi) ArticleReadTagListView(c *gin.Context) {
 	// tags, keyword, page Aggregation
 	agg := elastic.NewTermsAggregation().Field("tags")
 	agg.SubAggregation("articles", elastic.NewTermsAggregation().Field("keyword"))
-	agg.SubAggregation("page", elastic.NewBucketSortAggregation().From(offset).Size(req.Limit)) // pagnation
+	agg.SubAggregation("page", elastic.NewBucketSortAggregation().From(offset).Size(req.Limit)) // paginate aggregation search
 	query := elastic.NewBoolQuery()
 
 	result, _ = global.ESClient.

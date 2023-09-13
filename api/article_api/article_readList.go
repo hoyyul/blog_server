@@ -16,6 +16,8 @@ func (ArticleApi) ArticleReadListView(c *gin.Context) {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
+
+	// paginate search
 	list, count, err := es_service.GetList(req.Key, req.Page, req.Limit)
 	if err != nil {
 		global.Logger.Error(err)

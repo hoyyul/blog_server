@@ -59,6 +59,14 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		Tags:      req.Tags,
 	}
 
+	//
+	err = article.ISExistByID(req.ID)
+	if err != nil {
+		global.Logger.Error(err)
+		res.FailWithMessage("Article doesn't exist", c)
+		return
+	}
+
 	maps := structs.Map(&article)
 	var DataMap = map[string]any{}
 	for key, v := range maps {

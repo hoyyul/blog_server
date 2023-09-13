@@ -4,6 +4,7 @@ import (
 	"blog_server/global"
 	"blog_server/models/ctype"
 	"context"
+	"encoding/json"
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
@@ -180,7 +181,8 @@ func (a *ArticleModel) Create() (err error) {
 	return nil
 }
 
-func (a ArticleModel) ISExistData() bool {
+// search article by title
+func (a ArticleModel) ISExist() bool {
 	res, err := global.ESClient.
 		Search(a.Index()).
 		Query(elastic.NewTermQuery("keyword", a.Title)).
@@ -194,4 +196,17 @@ func (a ArticleModel) ISExistData() bool {
 		return true
 	}
 	return false
+}
+
+func (a *ArticleModel) ISExistByID(id string) error {
+	res, err := global.ESClient.
+		Get().
+		Index(a.Index()).
+		Id(id).
+		Do(context.Background())
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(res.Source, a)
+	return err
 }

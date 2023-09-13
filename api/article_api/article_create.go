@@ -108,7 +108,7 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 	}
 
 	// create article
-	if article.ISExistData() {
+	if article.ISExist() {
 		res.FailWithMessage("Article already exists", c)
 		return
 	}
