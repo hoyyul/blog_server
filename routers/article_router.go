@@ -8,6 +8,7 @@ import (
 func (rg RouterGroup) ArticleRouter() {
 	app := api.ApiGroupApp.ArticleApi
 	rg.POST("article", middleware.CheckAuthToken(), app.ArticleCreateView)
+	rg.POST("article/collect", middleware.CheckAuthToken(), app.ArticleCollCreateView)
 	rg.GET("article", app.ArticleReadListView)
 	rg.GET("article/:id", app.ArticleReadDetailView)
 	rg.GET("article/detail", app.ArticleReadDetailByTitleView)
