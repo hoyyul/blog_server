@@ -18,6 +18,7 @@ func MigrateTables() {
 			&models.AdvertiseModel{},
 			&models.UserModel{},
 			&models.CommentModel{},
+			&models.UserArticleCollectionModels{},
 			&models.MenuModel{},
 			&models.MenuBannerModel{},
 			&models.FeedbackModel{},

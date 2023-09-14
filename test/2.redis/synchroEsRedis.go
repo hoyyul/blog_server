@@ -29,15 +29,18 @@ func main() {
 	}
 
 	diggInfo := redis_service.GetDiggInfo()
+	visitInfo := redis_service.GetVisitInfo()
 	for _, hit := range result.Hits.Hits {
 		var article models.ArticleModel
 
 		// get dig count from es and redis
 		json.Unmarshal(hit.Source, &article) // dig count from es
 		digg := diggInfo[hit.Id]             // dig count from redis
-		newDigg := article.DiggCount + digg  // redis + es
+		visit := visitInfo[hit.Id]
+		newDigg := article.DiggCount + digg // redis + es
+		newVisit := article.LookCount + visit
 
-		if article.DiggCount == newDigg {
+		if article.DiggCount == newDigg && article.LookCount == newVisit {
 			continue
 		}
 
@@ -48,16 +51,18 @@ func main() {
 			Id(hit.Id).
 			Doc(map[string]int{
 				"digg_count": newDigg,
+				"look_count": newVisit,
 			}).
 			Do(context.Background())
 		if err != nil {
 			logrus.Error(err.Error())
 			continue
 		}
-		logrus.Info(article.Title, "Synchronize dig count successfully", newDigg)
+		logrus.Info(article.Title, "Synchronize dig count and visit count successfully", newDigg)
 	}
 
 	// clear cache
 	redis_service.DiggClear()
+	redis_service.VisitClear()
 
 }

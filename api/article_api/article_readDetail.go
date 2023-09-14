@@ -3,6 +3,7 @@ package article_api
 import (
 	"blog_server/models/res"
 	"blog_server/service/es_service"
+	"blog_server/service/redis_service"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +19,7 @@ func (ArticleApi) ArticleReadDetailView(c *gin.Context) {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
+	redis_service.Visit(req.ID) //visit
 	model, err := es_service.GetDetail(req.ID)
 	if err != nil {
 		res.FailWithMessage(err.Error(), c)
