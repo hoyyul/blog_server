@@ -159,3 +159,13 @@ func GetDetailByKeyword(key string) (model models.ArticleModel, err error) {
 	model.ID = hit.Id
 	return
 }
+
+func ArticleUpdate(id string, data map[string]any) error {
+	_, err := global.ESClient.
+		Update().
+		Index(models.ArticleModel{}.Index()).
+		Id(id).
+		Doc(data).
+		Do(context.Background())
+	return err
+}

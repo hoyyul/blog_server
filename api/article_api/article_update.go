@@ -5,12 +5,11 @@ import (
 	"blog_server/models"
 	"blog_server/models/ctype"
 	"blog_server/models/res"
+	"blog_server/service/es_service"
 	"time"
 
 	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
-	"golang.org/x/net/context"
 )
 
 type ArticleUpdateRequest struct {
@@ -96,16 +95,11 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 	}
 
 	// update elastic search
-	_, err = global.ESClient.
-		Update().
-		Index(models.ArticleModel{}.Index()).
-		Id(req.ID).
-		Doc(DataMap).
-		Do(context.Background())
+	err = es_service.ArticleUpdate(req.ID, maps)
 	if err != nil {
-		logrus.Error(err.Error())
 		res.FailWithMessage("Failed to update article", c)
 		return
 	}
+
 	res.OkWithMessage("Update article successfully", c)
 }
