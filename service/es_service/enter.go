@@ -3,6 +3,7 @@ package es_service
 import (
 	"blog_server/global"
 	"blog_server/models"
+	"blog_server/service/redis_service"
 	"context"
 	"encoding/json"
 	"errors"
@@ -84,6 +85,7 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 
 	count = int(res.Hits.TotalHits.Value)
 
+	diggInfo := redis_service.GetDiggInfo()
 	// save hit to struct
 	for _, hit := range res.Hits.Hits {
 		var article models.ArticleModel
@@ -106,6 +108,11 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 		}
 
 		article.ID = hit.Id // id = _id
+
+		// get dig count from redis
+		digg := diggInfo[hit.Id]
+		article.DiggCount = article.DiggCount + digg
+
 		articleList = append(articleList, article)
 	}
 	return articleList, count, err

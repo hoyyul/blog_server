@@ -3,6 +3,7 @@ package api
 import (
 	"blog_server/api/advertise_api"
 	"blog_server/api/article_api"
+	"blog_server/api/digg_api"
 	"blog_server/api/image_api"
 	"blog_server/api/menu_api"
 	"blog_server/api/message_api"
@@ -20,6 +21,7 @@ type ApiGroup struct {
 	TagApi       tag_api.TagApi
 	MessageApi   message_api.MessageApi
 	ArticleApi   article_api.ArticleApi
+	DiggApi      digg_api.DiggApi
 }
 
 var ApiGroupApp = new(ApiGroup)

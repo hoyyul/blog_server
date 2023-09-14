@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -27,10 +26,11 @@ func init() {
 	}
 
 }
-func main() {
+
+/*func main() {
 	err := rdb.Set("xxx1", "value1", 60*time.Second).Err()
 	fmt.Println(err)
 	cmd := rdb.Keys("*")
 	keys, err := cmd.Result()
 	fmt.Println(keys, err)
-}
+}*/
