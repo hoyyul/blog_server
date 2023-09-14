@@ -15,4 +15,5 @@ func (rg RouterGroup) ArticleRouter() {
 	rg.GET("article/calendar", app.ArticleReadCalendarCountView)
 	rg.PUT("article", app.ArticleUpdateView)
 	rg.DELETE("article", app.ArticleRemoveView)
+	rg.DELETE("article/collect", middleware.CheckAuthToken(), app.ArticleDeleteCollectView)
 }
