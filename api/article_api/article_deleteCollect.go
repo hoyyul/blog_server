@@ -29,7 +29,7 @@ func (ArticleApi) ArticleDeleteCollectView(c *gin.Context) {
 	var articleIDList []string
 	global.DB.Find(&collects, "user_id = ? and article_id in ?", claim.UserID, req.IDList).
 		Select("article_id").
-		Scan(&articleIDList)
+		Scan(&articleIDList) // articleIDList must be []string
 	if len(articleIDList) == 0 {
 		res.FailWithMessage("Illegal request", c)
 		return

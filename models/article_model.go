@@ -198,7 +198,7 @@ func (a ArticleModel) ISExist() bool {
 	return false
 }
 
-func (a *ArticleModel) ISExistByID(id string) error {
+func (a *ArticleModel) GetDataByID(id string) error {
 	res, err := global.ESClient.
 		Get().
 		Index(a.Index()).

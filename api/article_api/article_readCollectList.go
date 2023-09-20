@@ -13,12 +13,12 @@ import (
 	"github.com/olivere/elastic/v7"
 )
 
-type CollResponse struct {
+type CollectResponse struct {
 	models.ArticleModel
 	CreatedAt string `json:"created_at"`
 }
 
-func (ArticleApi) ArticleCollListView(c *gin.Context) {
+func (ArticleApi) ArticleCollectListView(c *gin.Context) {
 	var req models.PageInfo
 	c.ShouldBindQuery(&req)
 	_claim, _ := c.Get("claim")
@@ -38,7 +38,7 @@ func (ArticleApi) ArticleCollListView(c *gin.Context) {
 
 	boolSearch := elastic.NewTermsQuery("_id", articleIDList...)
 
-	var collList = make([]CollResponse, 0)
+	var collList = make([]CollectResponse, 0)
 
 	result, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
@@ -58,7 +58,7 @@ func (ArticleApi) ArticleCollListView(c *gin.Context) {
 			continue
 		}
 		article.ID = hit.Id
-		collList = append(collList, CollResponse{
+		collList = append(collList, CollectResponse{
 			ArticleModel: article,
 			CreatedAt:    collMap[hit.Id],
 		})

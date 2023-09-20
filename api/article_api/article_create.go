@@ -4,6 +4,7 @@ import (
 	"blog_server/global"
 	"blog_server/models"
 	"blog_server/models/res"
+	"blog_server/service/es_service"
 	"blog_server/utils/jwts"
 	"math/rand"
 	"strings"
@@ -118,6 +119,9 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		res.FailWithMessage(err.Error(), c)
 		return
 	}
+
+	// synchro to es while being created
+	go es_service.SynchroFullTextToES(article.ID, article.Title, article.Content)
 	res.OkWithMessage("Publish article successfully", c)
 
 }

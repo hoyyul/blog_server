@@ -4,6 +4,7 @@ import (
 	"blog_server/global"
 	"blog_server/models"
 	"blog_server/models/res"
+	"blog_server/service/es_service"
 	"context"
 	"fmt"
 
@@ -28,6 +29,7 @@ func (ArticleApi) ArticleRemoveView(c *gin.Context) {
 	for _, id := range cr.IDList {
 		req := elastic.NewBulkDeleteRequest().Id(id)
 		bulkService.Add(req)
+		go es_service.DeleteFullTextByArticleID(id)
 	}
 	result, err := bulkService.Do(context.Background())
 	if err != nil {

@@ -58,14 +58,6 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		Tags:      req.Tags,
 	}
 
-	//
-	err = article.ISExistByID(req.ID)
-	if err != nil {
-		global.Logger.Error(err)
-		res.FailWithMessage("Article doesn't exist", c)
-		return
-	}
-
 	maps := structs.Map(&article)
 	var DataMap = map[string]any{}
 	for key, v := range maps {
@@ -94,11 +86,26 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		DataMap[key] = v
 	}
 
-	// update elastic search
-	err = es_service.ArticleUpdate(req.ID, maps)
+	// load data to article if exist
+	err = article.GetDataByID(req.ID)
+	if err != nil {
+		global.Logger.Error(err)
+		res.FailWithMessage("Article doesn't exist", c)
+		return
+	}
+
+	// update article index
+	err = es_service.ArticleUpdate(req.ID, DataMap)
 	if err != nil {
 		res.FailWithMessage("Failed to update article", c)
 		return
+	}
+
+	// sychro full text search index
+	newArticle, _ := es_service.GetDetail(req.ID)
+	if article.Content != newArticle.Content || article.Title != newArticle.Title {
+		es_service.DeleteFullTextByArticleID(req.ID)
+		es_service.SynchroFullTextToES(req.ID, newArticle.Title, newArticle.Content)
 	}
 
 	res.OkWithMessage("Update article successfully", c)
