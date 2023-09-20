@@ -70,13 +70,7 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 	for _, hit := range res.Hits.Hits {
 		var article models.ArticleModel
 
-		data, err := hit.Source.MarshalJSON()
-		if err != nil {
-			logrus.Error(err.Error())
-			continue
-		}
-
-		err = json.Unmarshal(data, &article)
+		err = json.Unmarshal(hit.Source, &article)
 		if err != nil {
 			logrus.Error(err)
 			continue
