@@ -3,8 +3,8 @@ package models
 import "time"
 
 type MODEL struct {
-	ID        uint      `gorm:"primarykey" json:"id"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        uint      `gorm:"primarykey" json:"id,select($any)"`
+	CreatedAt time.Time `json:"created_at,select($any)"`
 	UpdatedAt time.Time `json:"-"`
 }
 

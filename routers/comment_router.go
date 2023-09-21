@@ -8,5 +8,5 @@ import (
 func (rg RouterGroup) CommentRouter() {
 	app := api.ApiGroupApp.CommentApi
 	rg.POST("comment", middleware.CheckAuthToken(), app.CommentCreateView)
-	//rg.GET("comments", app.CommentListView)
+	rg.GET("comment", app.CommentReadListView)
 }
