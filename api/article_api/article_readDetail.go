@@ -19,7 +19,7 @@ func (ArticleApi) ArticleReadDetailView(c *gin.Context) {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
-	redis_service.Visit(req.ID) // visit
+	redis_service.NewArticleVisit().Set(req.ID) // visit
 	model, err := es_service.GetDetail(req.ID)
 	if err != nil {
 		res.FailWithMessage(err.Error(), c)

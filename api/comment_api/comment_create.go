@@ -62,6 +62,6 @@ func (CommentApi) CommentCreateView(c *gin.Context) {
 	})
 
 	// add one total comment count to redis
-	redis_service.Comment(req.ArticleID)
+	redis_service.NewCommentCount().Set(req.ArticleID)
 	res.OkWithMessage("Publish comment successfully", c)
 }

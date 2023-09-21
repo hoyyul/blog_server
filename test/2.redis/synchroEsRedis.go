@@ -28,8 +28,8 @@ func main() {
 		return
 	}
 
-	diggInfo := redis_service.GetDiggInfo()
-	visitInfo := redis_service.GetVisitInfo()
+	diggInfo := redis_service.NewArticleDigg().GetInfo()
+	visitInfo := redis_service.NewArticleVisit().GetInfo()
 	for _, hit := range result.Hits.Hits {
 		var article models.ArticleModel
 
@@ -62,7 +62,7 @@ func main() {
 	}
 
 	// clear cache
-	redis_service.DiggClear()
-	redis_service.VisitClear()
+	redis_service.NewArticleDigg().Clear()
+	redis_service.NewArticleVisit().Clear()
 
 }

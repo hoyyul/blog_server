@@ -9,13 +9,13 @@ import (
 )
 
 func (DiggApi) DiggArticleView(c *gin.Context) {
-	var cr models.ESIDRequest
-	err := c.ShouldBindJSON(&cr)
+	var req models.ESIDRequest
+	err := c.ShouldBindJSON(&req)
 	if err != nil {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
 
-	redis_service.Digg(cr.ID)
+	redis_service.NewArticleDigg().Set(req.ID)
 	res.OkWithMessage("Dig article successfully", c)
 }

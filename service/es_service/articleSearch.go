@@ -64,8 +64,8 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 
 	count = int(res.Hits.TotalHits.Value)
 
-	diggInfo := redis_service.GetDiggInfo()
-	visitInfo := redis_service.GetVisitInfo()
+	diggInfo := redis_service.NewArticleDigg().GetInfo()
+	visitInfo := redis_service.NewArticleVisit().GetInfo()
 	// save hit to struct
 	for _, hit := range res.Hits.Hits {
 		var article models.ArticleModel
@@ -107,7 +107,7 @@ func GetDetail(id string) (article models.ArticleModel, err error) {
 		return
 	}
 	article.ID = res.Id
-	article.LookCount = article.LookCount + redis_service.GetVisit(res.Id)
+	article.LookCount = article.LookCount + redis_service.NewArticleVisit().Get(res.Id)
 	return
 }
 
