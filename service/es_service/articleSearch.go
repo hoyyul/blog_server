@@ -66,6 +66,7 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 
 	diggInfo := redis_service.NewArticleDigg().GetInfo()
 	visitInfo := redis_service.NewArticleVisit().GetInfo()
+	commentInfo := redis_service.NewCommentCount().GetInfo()
 	// save hit to struct
 	for _, hit := range res.Hits.Hits {
 		var article models.ArticleModel
@@ -86,8 +87,11 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 		// get dig count from redis
 		digg := diggInfo[hit.Id]
 		visit := visitInfo[hit.Id]
+		comment := commentInfo[hit.Id]
+		//fmt.Println(hit.Id, visit, comment)
 		article.DiggCount = article.DiggCount + digg
 		article.LookCount = article.LookCount + visit
+		article.CommentCount = article.CommentCount + comment
 
 		articleList = append(articleList, article)
 	}
