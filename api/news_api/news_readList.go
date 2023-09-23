@@ -36,8 +36,8 @@ const timeout = 2 * time.Second
 func (NewsApi) NewsReadListView(c *gin.Context) {
 	var req params
 	var headers header
-	err := c.ShouldBindJSON(&req)
-	err = c.ShouldBindHeader(&headers)
+	c.ShouldBindJSON(&req)
+	err := c.ShouldBindHeader(&headers)
 	if err != nil {
 		res.FailWithCode(res.ParameterError, c)
 		return

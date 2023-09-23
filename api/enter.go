@@ -3,6 +3,7 @@ package api
 import (
 	"blog_server/api/advertise_api"
 	"blog_server/api/article_api"
+	"blog_server/api/chat_api"
 	"blog_server/api/comment_api"
 	"blog_server/api/digg_api"
 	"blog_server/api/image_api"
@@ -26,6 +27,7 @@ type ApiGroup struct {
 	DiggApi      digg_api.DiggApi
 	CommentApi   comment_api.CommentApi
 	NewsApi      news_api.NewsApi
+	ChatApi      chat_api.ChatApi
 }
 
 var ApiGroupApp = new(ApiGroup)
