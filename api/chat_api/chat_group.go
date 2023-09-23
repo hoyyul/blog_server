@@ -25,11 +25,13 @@ type ChatUser struct {
 var ConnGroupMap = map[string]ChatUser{}
 
 const (
-	TextMsg    ctype.MsgType = 1
-	ImageMsg   ctype.MsgType = 2
-	SystemMsg  ctype.MsgType = 3
-	InRoomMsg  ctype.MsgType = 4
-	OutRoomMsg ctype.MsgType = 5
+	InRoomMsg  ctype.MsgType = 1
+	TextMsg    ctype.MsgType = 2
+	ImageMsg   ctype.MsgType = 3
+	VoiceMsg   ctype.MsgType = 4
+	VideoMsg   ctype.MsgType = 5
+	SystemMsg  ctype.MsgType = 6
+	OutRoomMsg ctype.MsgType = 7
 )
 
 type GroupRequest struct {
@@ -37,11 +39,12 @@ type GroupRequest struct {
 	MsgType ctype.MsgType `json:"msg_type"`
 }
 type GroupResponse struct {
-	NickName string        `json:"nick_name"`
-	Avatar   string        `json:"avatar"`
-	MsgType  ctype.MsgType `json:"msg_type"`
-	Content  string        `json:"content"`
-	Date     time.Time     `json:"date"`
+	NickName    string        `json:"nick_name"`
+	Avatar      string        `json:"avatar"`
+	MsgType     ctype.MsgType `json:"msg_type"`
+	Content     string        `json:"content"`
+	OnlineCount int           `json:"online_count"`
+	Date        time.Time     `json:"date"`
 }
 
 func (ChatApi) ChatGroupView(c *gin.Context) {
@@ -78,8 +81,12 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		if err != nil {
 			// user leave chat room
 			SendGroupMsg(conn, GroupResponse{
-				Content: fmt.Sprintf("%s left chat room", chatUser.NickName), // do not return nickname, avatar...
-				Date:    time.Now(),
+				NickName:    chatUser.NickName,
+				Avatar:      chatUser.Avatar,
+				MsgType:     OutRoomMsg,
+				Content:     fmt.Sprintf("%s left chat room", chatUser.NickName),
+				Date:        time.Now(),
+				OnlineCount: len(ConnGroupMap) - 1,
 			})
 			break
 		}
@@ -89,46 +96,51 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		err = json.Unmarshal(p, &request)
 		if err != nil {
 			SendMsg(addr, GroupResponse{
-				NickName: chatUser.NickName,
-				Avatar:   chatUser.Avatar,
-				MsgType:  SystemMsg,
-				Content:  "Failed to bind info",
+				NickName:    chatUser.NickName,
+				Avatar:      chatUser.Avatar,
+				MsgType:     SystemMsg,
+				Content:     "Failed to bind info",
+				OnlineCount: len(ConnGroupMap),
 			})
 			continue
 		}
 
-		// 判断类型
+		// check msg type and handle
 		switch request.MsgType {
 		case TextMsg:
 			if strings.TrimSpace(request.Content) == "" {
 				SendMsg(addr, GroupResponse{
-					NickName: chatUser.NickName,
-					Avatar:   chatUser.Avatar,
-					MsgType:  SystemMsg,
-					Content:  "Message can't be empty",
+					NickName:    chatUser.NickName,
+					Avatar:      chatUser.Avatar,
+					MsgType:     SystemMsg,
+					Content:     "Message can't be empty",
+					OnlineCount: len(ConnGroupMap),
 				})
 				continue
 			}
 			SendGroupMsg(conn, GroupResponse{
-				NickName: chatUser.NickName,
-				Avatar:   chatUser.Avatar,
-				Content:  request.Content,
-				MsgType:  TextMsg,
-				Date:     time.Now(),
+				NickName:    chatUser.NickName,
+				Avatar:      chatUser.Avatar,
+				Content:     request.Content,
+				MsgType:     TextMsg,
+				Date:        time.Now(),
+				OnlineCount: len(ConnGroupMap),
 			})
 		case InRoomMsg:
 			SendGroupMsg(conn, GroupResponse{
-				NickName: chatUser.NickName,
-				Avatar:   chatUser.Avatar,
-				Content:  fmt.Sprintf("%s entered chat room", chatUser.NickName),
-				Date:     time.Now(),
+				NickName:    chatUser.NickName,
+				Avatar:      chatUser.Avatar,
+				Content:     fmt.Sprintf("%s entered chat room", chatUser.NickName),
+				Date:        time.Now(),
+				OnlineCount: len(ConnGroupMap),
 			})
 		default:
 			SendMsg(addr, GroupResponse{
-				NickName: chatUser.NickName,
-				Avatar:   chatUser.Avatar,
-				MsgType:  SystemMsg,
-				Content:  "Message type incorrect",
+				NickName:    chatUser.NickName,
+				Avatar:      chatUser.Avatar,
+				MsgType:     SystemMsg,
+				Content:     "Message type incorrect",
+				OnlineCount: len(ConnGroupMap),
 			})
 		}
 
@@ -136,6 +148,8 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 
 	// clear setting
 	defer conn.Close()
+
+	// remove addr from conn map
 	delete(ConnGroupMap, addr)
 }
 
