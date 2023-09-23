@@ -2,14 +2,47 @@ package chat_api
 
 import (
 	"blog_server/global"
+	"blog_server/models"
+	"blog_server/models/ctype"
 	"blog_server/models/res"
+	"encoding/json"
+	"fmt"
 	"net/http"
+	"strings"
+	"time"
 
+	"github.com/DanPlayer/randomname"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
-var ConnGroupMap = map[string]*websocket.Conn{}
+type ChatUser struct {
+	Conn     *websocket.Conn
+	NickName string `json:"nick_name"`
+	Avatar   string `json:"avatar"`
+}
+
+var ConnGroupMap = map[string]ChatUser{}
+
+const (
+	TextMsg    ctype.MsgType = 1
+	ImageMsg   ctype.MsgType = 2
+	SystemMsg  ctype.MsgType = 3
+	InRoomMsg  ctype.MsgType = 4
+	OutRoomMsg ctype.MsgType = 5
+)
+
+type GroupRequest struct {
+	Content string        `json:"content"`
+	MsgType ctype.MsgType `json:"msg_type"`
+}
+type GroupResponse struct {
+	NickName string        `json:"nick_name"`
+	Avatar   string        `json:"avatar"`
+	MsgType  ctype.MsgType `json:"msg_type"`
+	Content  string        `json:"content"`
+	Date     time.Time     `json:"date"`
+}
 
 func (ChatApi) ChatGroupView(c *gin.Context) {
 	var upGrader = websocket.Upgrader{
@@ -24,18 +57,81 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
-	addr := conn.RemoteAddr().String()
-	ConnGroupMap[addr] = conn
+
+	// save user info and save user info to conn map
+	addr := conn.RemoteAddr().String()                                 // get ip addr
+	nickName := randomname.GenerateName()                              // get a random nickname
+	nickNameFirst := string([]rune(nickName)[0])                       // get fisrt chinese character
+	avatar := fmt.Sprintf("uploads/chat_avatar/%s.png", nickNameFirst) // get the avatar
+
+	chatUser := ChatUser{
+		Conn:     conn,
+		NickName: nickName,
+		Avatar:   avatar,
+	}
+	ConnGroupMap[addr] = chatUser
+
 	global.Logger.Infof("%s connect successful", addr)
 	for {
 		// receive message
 		_, p, err := conn.ReadMessage()
 		if err != nil {
+			// user leave chat room
+			SendGroupMsg(conn, GroupResponse{
+				Content: fmt.Sprintf("%s left chat room", chatUser.NickName), // do not return nickname, avatar...
+				Date:    time.Now(),
+			})
 			break
 		}
 
-		// send message
-		SendGroupMsg(string(p))
+		// bind request info
+		var request GroupRequest
+		err = json.Unmarshal(p, &request)
+		if err != nil {
+			SendMsg(addr, GroupResponse{
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				MsgType:  SystemMsg,
+				Content:  "Failed to bind info",
+			})
+			continue
+		}
+
+		// 判断类型
+		switch request.MsgType {
+		case TextMsg:
+			if strings.TrimSpace(request.Content) == "" {
+				SendMsg(addr, GroupResponse{
+					NickName: chatUser.NickName,
+					Avatar:   chatUser.Avatar,
+					MsgType:  SystemMsg,
+					Content:  "Message can't be empty",
+				})
+				continue
+			}
+			SendGroupMsg(conn, GroupResponse{
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				Content:  request.Content,
+				MsgType:  TextMsg,
+				Date:     time.Now(),
+			})
+		case InRoomMsg:
+			SendGroupMsg(conn, GroupResponse{
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				Content:  fmt.Sprintf("%s entered chat room", chatUser.NickName),
+				Date:     time.Now(),
+			})
+		default:
+			SendMsg(addr, GroupResponse{
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				MsgType:  SystemMsg,
+				Content:  "Message type incorrect",
+			})
+		}
+
 	}
 
 	// clear setting
@@ -43,8 +139,45 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 	delete(ConnGroupMap, addr)
 }
 
-func SendGroupMsg(text string) {
-	for _, conn := range ConnGroupMap {
-		conn.WriteMessage(websocket.TextMessage, []byte(text))
+// group message
+func SendGroupMsg(conn *websocket.Conn, response GroupResponse) {
+	byteData, _ := json.Marshal(response)
+	_addr := conn.RemoteAddr().String()
+	ip, addr := getIPAndAddr(_addr)
+
+	global.DB.Create(&models.ChatModel{
+		NickName: response.NickName,
+		Avatar:   response.Avatar,
+		Content:  response.Content,
+		IP:       ip,
+		Addr:     addr,
+		IsGroup:  true,
+		MsgType:  response.MsgType,
+	})
+	for _, chatUser := range ConnGroupMap {
+		chatUser.Conn.WriteMessage(websocket.TextMessage, byteData)
 	}
+}
+
+// system message
+func SendMsg(_addr string, response GroupResponse) {
+	byteData, _ := json.Marshal(response)
+	chatUser := ConnGroupMap[_addr]
+	ip, addr := getIPAndAddr(_addr)
+	global.DB.Create(&models.ChatModel{
+		NickName: response.NickName,
+		Avatar:   response.Avatar,
+		Content:  response.Content,
+		IP:       ip,
+		Addr:     addr,
+		IsGroup:  false,
+		MsgType:  response.MsgType,
+	})
+	chatUser.Conn.WriteMessage(websocket.TextMessage, byteData)
+}
+
+func getIPAndAddr(_addr string) (ip string, addr string) {
+	addrList := strings.Split(_addr, ":")
+	addr = "Internal Network Address"
+	return addrList[0], addr // addrList[0] is ip, addrList[1] is port
 }

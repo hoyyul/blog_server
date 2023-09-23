@@ -23,6 +23,7 @@ func MigrateTables() {
 			&models.MenuBannerModel{},
 			&models.FeedbackModel{},
 			&models.LoginDataModel{},
+			&models.ChatModel{},
 		)
 	if err != nil {
 		global.Logger.Error("[ error ] Table schema migration failed.")
