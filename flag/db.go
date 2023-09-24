@@ -3,6 +3,7 @@ package flag
 import (
 	"blog_server/global"
 	"blog_server/models"
+	"blog_server/plugins/log_stash"
 )
 
 func MigrateTables() {
@@ -24,6 +25,7 @@ func MigrateTables() {
 			&models.FeedbackModel{},
 			&models.LoginDataModel{},
 			&models.ChatModel{},
+			&log_stash.LogStashModel{},
 		)
 	if err != nil {
 		global.Logger.Error("[ error ] Table schema migration failed.")

@@ -27,7 +27,7 @@ func (MenuApi) MenuReadListView(c *gin.Context) {
 	// get menu-banner model
 	var menuBanners []models.MenuBannerModel
 	global.DB.Preload(clause.Associations).Order("sort desc").Find(&menuBanners, "menu_id in ?", menuIDList)
-	var menus []MenuResponse
+	var menus = make([]MenuResponse, 0)
 	for _, model := range menuList {
 		var banners = make([]Banner, 0)
 		for _, record := range menuBanners {

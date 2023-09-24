@@ -3,6 +3,7 @@ package common_service
 import (
 	"blog_server/global"
 	"blog_server/models"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -10,6 +11,7 @@ import (
 type Option struct {
 	models.PageInfo
 	Debug bool
+	Likes []string
 }
 
 // get paginated data
@@ -26,6 +28,14 @@ func FetchPaginatedData[T any](model T, op Option) (list []T, count int64, err e
 	}
 
 	DB = DB.Where(model)
+	for index, column := range op.Likes {
+		if index == 0 {
+			DB.Where(fmt.Sprintf("%s like ?", column), fmt.Sprintf("%%%s%%", op.Key))
+			continue
+		}
+		DB.Or(fmt.Sprintf("%s like ?", column), fmt.Sprintf("%%%s%%", op.Key))
+	}
+
 	count = DB.Where(model).Find(&list).RowsAffected
 	query := DB.Where(model) // reset
 
