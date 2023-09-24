@@ -12,6 +12,7 @@ import (
 	"blog_server/api/message_api"
 	"blog_server/api/news_api"
 	"blog_server/api/setting_api"
+	"blog_server/api/statistic_api"
 	"blog_server/api/tag_api"
 	"blog_server/api/user_api"
 )
@@ -30,6 +31,7 @@ type ApiGroup struct {
 	NewsApi      news_api.NewsApi
 	ChatApi      chat_api.ChatApi
 	LogApi       log_api.LogApi
+	StatisticApi statistic_api.StatisticApi
 }
 
 var ApiGroupApp = new(ApiGroup)

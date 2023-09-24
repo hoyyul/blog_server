@@ -3,6 +3,7 @@ package user_api
 import (
 	"blog_server/global"
 	"blog_server/models"
+	"blog_server/models/ctype"
 	"blog_server/models/res"
 	"blog_server/plugins/log_stash"
 	"blog_server/utils/jwts"
@@ -59,6 +60,18 @@ func (UserApi) EmailLoginView(c *gin.Context) {
 
 	logger = log_stash.New(c.ClientIP(), token)
 	logger.Info("Login successfully!")
+
+	// save login record to db
+	global.DB.Create(&models.LoginDataModel{
+		UserID:    userModel.ID,
+		IP:        c.ClientIP(),
+		NickName:  userModel.NickName,
+		Token:     token,
+		Device:    "",
+		Addr:      "Internal Network",
+		LoginType: ctype.SignEmail,
+	})
+
 	res.OkWithData(token, c)
 
 }
