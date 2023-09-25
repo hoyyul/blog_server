@@ -58,6 +58,7 @@ func (UserApi) QQLoginView(c *gin.Context) {
 		NickName: user.NickName,
 		Role:     int(user.Role),
 		UserID:   user.ID,
+		Avatar:   user.Avatar,
 	})
 	if err != nil {
 		global.Logger.Error(err)

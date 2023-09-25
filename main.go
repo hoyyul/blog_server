@@ -6,6 +6,7 @@ import (
 	"blog_server/global"
 	"blog_server/initialization"
 	"blog_server/routers"
+	"blog_server/utils"
 )
 
 // @title blog_server API Documentation
@@ -40,6 +41,11 @@ func main() {
 	}
 
 	addr := global.Config.System.Addr()
-	global.Logger.Infof("Server is running on %s", addr)
+	utils.PrintSystem()
 	router.Run(addr)
+
+	err := router.Run(addr)
+	if err != nil {
+		global.Logger.Fatalf(err.Error())
+	}
 }

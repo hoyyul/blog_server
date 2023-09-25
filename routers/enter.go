@@ -2,6 +2,7 @@ package routers
 
 import (
 	"blog_server/global"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -15,6 +16,7 @@ type RouterGroup struct {
 func InitRouter() *gin.Engine {
 	gin.SetMode(global.Config.System.Env) //block some logs in this env
 	router := gin.Default()
+	router.StaticFS("uploads", http.Dir("uploads"))
 	router.GET("/swagger/*any", gs.WrapHandler(swaggerFiles.Handler))
 
 	apiRouterGroup := router.Group("api")

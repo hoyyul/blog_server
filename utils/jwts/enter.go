@@ -10,6 +10,7 @@ type JwtPayLoad struct {
 	NickName string `json:"nick_name"`
 	Role     int    `json:"role"` // 1.admin 2. user
 	UserID   uint   `json:"user_id"`
+	Avatar   string `json:"avatar"`
 }
 
 var MySecret []byte
