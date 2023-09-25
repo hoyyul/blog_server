@@ -5,6 +5,7 @@ import (
 	"blog_server/models"
 	"blog_server/models/ctype"
 	"blog_server/models/res"
+	"blog_server/utils"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -192,6 +193,7 @@ func SendMsg(_addr string, response GroupResponse) {
 
 func getIPAndAddr(_addr string) (ip string, addr string) {
 	addrList := strings.Split(_addr, ":")
-	addr = "Internal Network Address"
-	return addrList[0], addr // addrList[0] is ip, addrList[1] is port
+	ip = addrList[0]
+	addr = utils.GetAddr(ip)
+	return ip, addr // addrList[0] is ip, addrList[1] is port
 }

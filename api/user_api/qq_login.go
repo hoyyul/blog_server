@@ -6,6 +6,7 @@ import (
 	"blog_server/models/ctype"
 	"blog_server/models/res"
 	"blog_server/plugins/qq"
+	"blog_server/utils"
 	"blog_server/utils/jwts"
 	"blog_server/utils/pwd"
 
@@ -28,6 +29,7 @@ func (UserApi) QQLoginView(c *gin.Context) {
 
 	var user models.UserModel
 	err = global.DB.Take(&user, "token = ?", openID).Error
+	ip, addr := utils.GetAddrByGin(c)
 	if err != nil {
 		// if user doesn't exist; register it
 		hashPwd := pwd.HashPwd(pwd.GetRandomPwd(16))
@@ -36,9 +38,9 @@ func (UserApi) QQLoginView(c *gin.Context) {
 			UserName:   openID,
 			Password:   hashPwd, // 16 digit random pwd
 			Avatar:     qqInfo.Avatar,
-			Addr:       "127.0.0.1",
+			Addr:       addr,
 			Token:      openID,
-			IP:         c.ClientIP(),
+			IP:         ip,
 			Role:       ctype.PermissionUser,
 			SignStatus: ctype.SignQQ,
 		}
@@ -66,11 +68,11 @@ func (UserApi) QQLoginView(c *gin.Context) {
 	// save login record to db
 	global.DB.Create(&models.LoginDataModel{
 		UserID:    user.ID,
-		IP:        c.ClientIP(),
+		IP:        ip,
 		NickName:  user.NickName,
 		Token:     token,
 		Device:    "",
-		Addr:      "Internal Network",
+		Addr:      addr,
 		LoginType: ctype.SignQQ,
 	})
 

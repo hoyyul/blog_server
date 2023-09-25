@@ -4,6 +4,7 @@ import (
 	"blog_server/global"
 	"blog_server/models"
 	"blog_server/models/ctype"
+	"blog_server/utils"
 	"blog_server/utils/pwd"
 )
 
@@ -20,6 +21,7 @@ func (UserService) CreateUser(userName, nickName, password string, role ctype.Ro
 	// get a hash value
 	hashPwd := pwd.HashPwd(password)
 
+	addr := utils.GetAddr(ip)
 	// save to database
 	err = global.DB.Create(&models.UserModel{
 		NickName:   nickName,
@@ -29,7 +31,7 @@ func (UserService) CreateUser(userName, nickName, password string, role ctype.Ro
 		Role:       role,
 		Avatar:     Avatar,
 		IP:         "127.0.0.1",
-		Addr:       "Internal Network Address",
+		Addr:       addr,
 		SignStatus: ctype.SignEmail,
 	}).Error
 

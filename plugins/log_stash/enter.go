@@ -2,6 +2,7 @@ package log_stash
 
 import (
 	"blog_server/global"
+	"blog_server/utils"
 	"blog_server/utils/jwts"
 
 	"github.com/gin-gonic/gin"
@@ -21,9 +22,11 @@ func New(ip string, token string) *Log {
 		userID = claims.UserID
 	}
 
+	addr := utils.GetAddr(ip)
+
 	return &Log{
 		ip:     ip,
-		addr:   "Internal Network",
+		addr:   addr,
 		userId: userID,
 	}
 }

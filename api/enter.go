@@ -5,7 +5,6 @@ import (
 	"blog_server/api/article_api"
 	"blog_server/api/chat_api"
 	"blog_server/api/comment_api"
-	"blog_server/api/digg_api"
 	"blog_server/api/image_api"
 	"blog_server/api/log_api"
 	"blog_server/api/menu_api"
@@ -26,7 +25,7 @@ type ApiGroup struct {
 	TagApi       tag_api.TagApi
 	MessageApi   message_api.MessageApi
 	ArticleApi   article_api.ArticleApi
-	DiggApi      digg_api.DiggApi
+	//DiggApi      digg_api.DiggApi
 	CommentApi   comment_api.CommentApi
 	NewsApi      news_api.NewsApi
 	ChatApi      chat_api.ChatApi
