@@ -20,7 +20,6 @@ func (SettingApi) SettingUpdateView(c *gin.Context) {
 	}
 
 	configMap := map[string]interface{}{
-		"site":  &config.SiteInfo{},
 		"email": &config.Email{},
 		"qq":    &config.QQ{},
 		"aws":   &config.AWS{},
@@ -38,8 +37,6 @@ func (SettingApi) SettingUpdateView(c *gin.Context) {
 
 		// use reflection to judge which entry to be updated
 		switch uri.Name {
-		case "site":
-			global.Config.SiteInfo = *(info.(*config.SiteInfo))
 		case "email":
 			global.Config.Email = *(info.(*config.Email))
 		case "qq":

@@ -21,8 +21,8 @@ type MenuRequest struct {
 	Abstract      ctype.Array `json:"abstract" structs:"abstract"`
 	AbstractTime  int         `json:"abstract_time" structs:"abstract_time"` // time interval to swicth images
 	BannerTime    int         `json:"banner_time" structs:"banner_time"`
-	Sort          int         `json:"sort" binding:"required" msg:"Enter a menu sort" structs:"sort"` // menu sort
-	ImageSortList []ImageSort `json:"image_sort_list" structs:"-"`                                    // image sort
+	Sort          int         `json:"sort" structs:"sort"`         // menu sort
+	ImageSortList []ImageSort `json:"image_sort_list" structs:"-"` // image sort
 }
 
 func (MenuApi) MenuCreateView(c *gin.Context) {

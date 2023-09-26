@@ -18,7 +18,8 @@ type BannerModel struct {
 // hook function to remove image from local path
 func (b *BannerModel) BeforeDelete(db *gorm.DB) (err error) {
 	if b.StorageLocation == ctype.Local {
-		err := os.Remove(b.Path)
+		//err := os.Remove(b.Path)
+		err = os.Remove(b.Path[1:])
 		if err != nil {
 			return err
 		}

@@ -3,7 +3,7 @@ mysql:
   port: 3306
   db: blog_db
   user: root
-  config: "charset=utf8mb4&parseTime=True&loc=Local"
+  config: charset=utf8mb4&parseTime=True&loc=Local
   password: root
   log_level: dev
 logger:
@@ -20,17 +20,17 @@ upload:
   size: 2
   path: uploads/file
 site_info:
-  created_at: "2023-08-27"
-  title: 知道
+  created_at: "2023-09-26"
+  title: HalluTech
   qq_image: https://assets.leetcode.com/users/leetcode/avatar_1568224780.png
-  version: 6.0.2
+  version: 1.0.0
   email: 1085494156@qq.com
   wechat_image: https://assets.leetcode.com/users/leetcode/avatar_1568224780.png
-  name: 知道
-  job: 开发
-  addr: 中国
-  slogan: 知道
-  slogan_en: ZHIDAO
+  name: HalluTech
+  job: developer
+  addr: Osaka
+  slogan: HalluTech
+  slogan_en: Hallu技术派
   web: https://github.com/
   github_url: https://github.com/
 qq:
@@ -53,7 +53,7 @@ email:
   user_tls: false
 jwt:
   secret_key: xxx
-  expires: 2
+  expires: 5
   issuer: xx
 redis:
   ip: 127.0.0.1
@@ -61,7 +61,7 @@ redis:
   password: ""
   pool_size: 100
 es:
-  host: "http://127.0.0.1"
+  host: http://127.0.0.1
   port: 9200
-  user:
-  password:
+  user: ""
+  password: ""

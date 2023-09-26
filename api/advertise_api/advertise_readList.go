@@ -28,7 +28,7 @@ func (AdvertiseApi) AdvertiseReadListView(c *gin.Context) {
 	}
 
 	// if request came from admin, return all; else return isShow = true
-	referer := c.GetHeader("Referer")
+	referer := c.GetHeader("Gvb_referer")
 	isShow := true
 	if strings.Contains(referer, "admin") {
 		isShow = false

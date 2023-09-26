@@ -18,8 +18,6 @@ func (SettingApi) SettingReadView(c *gin.Context) {
 	}
 
 	switch uri.Name {
-	case "site":
-		res.OkWithData(global.Config.SiteInfo, c)
 	case "email":
 		res.OkWithData(global.Config.Email, c)
 	case "aws":

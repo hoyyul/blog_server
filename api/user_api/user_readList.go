@@ -11,10 +11,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type UserResponse struct {
+	models.UserModel
+	RoleID int `json:"role_id"`
+}
+
+type UserListRequest struct {
+	models.PageInfo
+	Role int `json:"role" form:"role"`
+}
+
 func (UserApi) UserListView(c *gin.Context) {
 	_claim, _ := c.Get("claim")
 	claim := _claim.(*jwts.CustomClaim)
-	var page models.PageInfo
+	var page UserListRequest
 
 	if err := c.ShouldBindQuery(&page); err != nil {
 		res.FailWithCode(res.ParameterError, c)
@@ -22,9 +32,10 @@ func (UserApi) UserListView(c *gin.Context) {
 	}
 
 	// get paginated list
-	var users []models.UserModel
+	var users []UserResponse
 	list, count, _ := common_service.FetchPaginatedData[models.UserModel](models.UserModel{}, common_service.Option{
-		PageInfo: page,
+		PageInfo: page.PageInfo,
+		Likes:    []string{"nick_name"},
 	})
 
 	// mask information
@@ -34,7 +45,10 @@ func (UserApi) UserListView(c *gin.Context) {
 		}
 		user.Tel = mask.MaskTel(user.Tel)
 		user.Email = mask.MaskEmail(user.Email)
-		users = append(users, user)
+		users = append(users, UserResponse{
+			UserModel: user,
+			RoleID:    int(user.Role),
+		})
 	}
 
 	res.OkWithList(users, count, c)
