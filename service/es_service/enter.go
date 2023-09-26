@@ -2,12 +2,15 @@ package es_service
 
 import (
 	"blog_server/models"
+
+	"github.com/olivere/elastic/v7"
 )
 
 type Option struct {
-	models.PageInfo          // pagnation info
-	Fields          []string // search article by title, abstract, content
-	Tag             string   // search article by tag
+	models.PageInfo                    // pagnation info
+	Fields          []string           // search article by title, abstract, content
+	Tag             string             // search article by tag
+	Query           *elastic.BoolQuery //search condition
 }
 
 type SortField struct {

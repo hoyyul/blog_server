@@ -18,14 +18,14 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 
 	// search article by title, abstract, content
 	if option.Key != "" {
-		boolSearch.Must(
+		option.Query.Must(
 			elastic.NewMultiMatchQuery(option.Key, option.Fields...),
 		)
 	}
 
 	// search article by tag
 	if option.Tag != "" {
-		boolSearch.Must(
+		option.Query.Must(
 			elastic.NewMultiMatchQuery(option.Tag, "tags"),
 		)
 	}
