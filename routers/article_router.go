@@ -7,15 +7,17 @@ import (
 
 func (rg RouterGroup) ArticleRouter() {
 	app := api.ApiGroupApp.ArticleApi
-	rg.POST("article", middleware.CheckAdminToken(), app.ArticleCreateView)
-	rg.POST("article/collect", middleware.CheckAuthToken(), app.ArticleCollCreateView)
-	rg.GET("article", app.ArticleReadListView)
-	rg.GET("article/:id", app.ArticleReadDetailView)
-	rg.GET("article/detail", app.ArticleReadDetailByTitleView)
-	rg.GET("article/calendar", app.ArticleReadCalendarCountView)
-	rg.GET("article/text", app.FullTextSearchView)
-	rg.GET("article/digg", app.ArticleDiggView)
-	rg.PUT("article", middleware.CheckAdminToken(), app.ArticleUpdateView)
-	rg.DELETE("article", middleware.CheckAdminToken(), app.ArticleRemoveView)
-	rg.DELETE("article/collect", middleware.CheckAuthToken(), app.ArticleDeleteCollectView)
+	rg.POST("articles", middleware.CheckAdminToken(), app.ArticleCreateView)
+	rg.POST("articles/collects", middleware.CheckAuthToken(), app.ArticleCollCreateView)
+	rg.GET("categorys", app.ArticleCategoryListView)
+	rg.GET("articles/content/:id", app.ArticleContentByIDView)
+	rg.GET("articles", app.ArticleReadListView)
+	rg.GET("articles/:id", app.ArticleReadDetailView)
+	rg.GET("articles/detail", app.ArticleReadDetailByTitleView)
+	rg.GET("articles/calendar", app.ArticleReadCalendarCountView)
+	rg.GET("articles/text", app.FullTextSearchView)
+	rg.GET("articles/digg", app.ArticleDiggView)
+	rg.PUT("articles", middleware.CheckAdminToken(), app.ArticleUpdateView)
+	rg.DELETE("articles", middleware.CheckAdminToken(), app.ArticleRemoveView)
+	rg.DELETE("articles/collects", middleware.CheckAuthToken(), app.ArticleDeleteCollectView)
 }

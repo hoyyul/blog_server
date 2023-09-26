@@ -25,7 +25,7 @@ func (ArticleApi) ArticleReadListView(c *gin.Context) {
 	// paginate search by title + tag
 	list, count, err := es_service.GetList(es_service.Option{
 		PageInfo: req.PageInfo,
-		Fields:   []string{"title", "content"},
+		Fields:   []string{"title", "content", "category"},
 		Tag:      req.Tag,
 	})
 	if err != nil {

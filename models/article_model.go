@@ -30,8 +30,8 @@ type ArticleModel struct {
 	UserAvatar   string `json:"user_avatar" structs:"user_avatar"`
 
 	Category string `json:"category" structs:"category"`
-	Source   string `json:"source,omit(list)" structs:"source"`
-	Link     string `json:"link,omit(list)" structs:"link"`
+	Source   string `json:"source" structs:"source"`
+	Link     string `json:"link" structs:"link"`
 
 	BannerID  uint   `json:"banner_id" structs:"banner_id"`
 	BannerUrl string `json:"banner_url" structs:"banner_url"`
@@ -172,7 +172,7 @@ func (a ArticleModel) RemoveIndex() error {
 func (a *ArticleModel) Create() (err error) {
 	indexResponse, err := global.ESClient.Index().
 		Index(a.Index()).
-		BodyJson(a).Do(context.Background())
+		BodyJson(a).Refresh("true").Do(context.Background())
 	if err != nil {
 		logrus.Error(err.Error())
 		return err
