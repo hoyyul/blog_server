@@ -17,7 +17,7 @@ This is the backend for a decoupled personal blog project, with the frontend pro
 - logrus
 
 ## Main features
-`English`
+### English
 - creation, read, deletion, update for advertisement, article, news, images, menu, tag, comment
 - User bind email, change password, registration/login(jwt)
 - Online chat/groupchat(websocket)
@@ -27,7 +27,7 @@ This is the backend for a decoupled personal blog project, with the frontend pro
 - Counting the number of comments, articles, article likes, comment likes, and tracking user logins over the past 7 days.(redis+elasticsearch)
 - cloud storage(aws)
 
-`Japanese`
+### Japanese
 - 広告、文章、ニュース、画像、メニュー、タグ、コメントの作成、読み取り、削除、更新
 - ユーザーのメールアドレスを紐づけ、パスワードを変更、登録/ログイン（JWT）
 - オンラインチャット/グループチャット（WebSocket）
