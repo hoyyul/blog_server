@@ -16,14 +16,14 @@ type UserRole struct {
 }
 
 func (UserApi) UserUpdateView(c *gin.Context) {
-	var cr UserRole
-	if err := c.ShouldBindJSON(&cr); err != nil {
-		res.FailWithValidation(err, &cr, c)
+	var req UserRole
+	if err := c.ShouldBindJSON(&req); err != nil {
+		res.FailWithValidation(err, &req, c)
 		return
 	}
 
 	var user models.UserModel
-	err := global.DB.Take(&user, cr.UserID).Error
+	err := global.DB.Take(&user, req.UserID).Error
 	if err != nil {
 		res.FailWithMessage("User doesn't exits", c)
 		return
@@ -31,8 +31,8 @@ func (UserApi) UserUpdateView(c *gin.Context) {
 
 	// update user information
 	err = global.DB.Model(&user).Updates(map[string]any{
-		"role":      cr.Role,
-		"nick_name": cr.NickName,
+		"role":      req.Role,
+		"nick_name": req.NickName,
 	}).Error
 
 	if err != nil {

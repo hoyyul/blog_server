@@ -11,10 +11,10 @@ import (
 
 // find chat history between user a and user b
 func (MessageApi) MessageReadRecordView(c *gin.Context) {
-	var cr MessageRecordRequest
-	err := c.ShouldBindJSON(&cr)
+	var req MessageRecordRequest
+	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		res.FailWithValidation(err, &cr, c)
+		res.FailWithValidation(err, &req, c)
 		return
 	}
 
@@ -30,7 +30,7 @@ func (MessageApi) MessageReadRecordView(c *gin.Context) {
 
 	// find user b message
 	for _, model := range _messageList {
-		if model.RevUserID == cr.UserID || model.SendUserID == cr.UserID {
+		if model.RevUserID == req.UserID || model.SendUserID == req.UserID {
 			messageList = append(messageList, model)
 		}
 	}

@@ -7,8 +7,8 @@ import (
 
 func (rg RouterGroup) MessageRouter() {
 	app := api.ApiGroupApp.MessageApi
-	rg.POST("message", app.MessageCreateView)
-	rg.GET("message_list", app.MessageReadListView)
-	rg.GET("message", middleware.CheckAuthToken(), app.MessageReadHistoryView)
-	rg.GET("message_record", middleware.CheckAuthToken(), app.MessageReadRecordView)
+	rg.POST("messages", app.MessageCreateView)
+	rg.GET("messages_all", app.MessageReadListView)
+	rg.GET("messages", middleware.CheckAuthToken(), app.MessageReadHistoryView)
+	rg.GET("messages_record", middleware.CheckAuthToken(), app.MessageReadRecordView)
 }

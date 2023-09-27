@@ -9,14 +9,14 @@ import (
 )
 
 func (MessageApi) MessageReadListView(c *gin.Context) {
-	var cr models.PageInfo
-	if err := c.ShouldBindQuery(&cr); err != nil {
+	var req models.PageInfo
+	if err := c.ShouldBindQuery(&req); err != nil {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
 
 	list, count, _ := common_service.FetchPaginatedData[models.MessageModel](models.MessageModel{}, common_service.Option{
-		PageInfo: cr,
+		PageInfo: req,
 	})
 
 	res.OkWithList(list, count, c)

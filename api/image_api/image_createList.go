@@ -5,6 +5,7 @@ import (
 	"blog_server/models/res"
 	"blog_server/service"
 	"blog_server/service/image_service"
+	"blog_server/utils/jwts"
 	"io/fs"
 	"os"
 
@@ -12,6 +13,13 @@ import (
 )
 
 func (ImageApi) ImageCreateListView(c *gin.Context) {
+	_claim, _ := c.Get("claim")
+	claim := _claim.(*jwts.CustomClaim)
+	if claim.Role == 3 {
+		res.FailWithMessage("Sign in to upload image", c)
+		return
+	}
+
 	imageForm, err := c.MultipartForm()
 
 	if err != nil {

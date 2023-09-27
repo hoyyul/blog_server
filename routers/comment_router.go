@@ -7,8 +7,10 @@ import (
 
 func (rg RouterGroup) CommentRouter() {
 	app := api.ApiGroupApp.CommentApi
-	rg.POST("comment", middleware.CheckAuthToken(), app.CommentCreateView)
-	rg.POST("comment/:id", app.CommentDiggView)
-	rg.GET("comment", app.CommentReadListView)
-	rg.DELETE("comment/:id", middleware.CheckAdminToken(), app.CommentDeleteView)
+	rg.POST("comments", middleware.CheckAuthToken(), app.CommentCreateView)
+	rg.GET("comments/digg/:id", app.CommentDiggView)
+	rg.GET("comments", app.CommentListAllView)
+	rg.GET("comments/:id", app.CommentReadListView) // get comments of an article
+	rg.DELETE("comments/:id", middleware.CheckAdminToken(), app.CommentDeleteView)
+
 }

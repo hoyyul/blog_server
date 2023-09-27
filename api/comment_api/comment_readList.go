@@ -12,12 +12,12 @@ import (
 )
 
 type CommentListRequest struct {
-	ArticleID string `form:"article_id"`
+	ArticleID string `form:"id" uri:"id" json:"id"`
 }
 
 func (CommentApi) CommentReadListView(c *gin.Context) {
 	var req CommentListRequest
-	err := c.ShouldBindQuery(&req)
+	err := c.ShouldBindUri(&req)
 	if err != nil {
 		res.FailWithValidation(err, &req, c)
 		return

@@ -10,8 +10,9 @@ import (
 
 type Option struct {
 	models.PageInfo
-	Debug bool
-	Likes []string
+	Debug   bool
+	Likes   []string
+	Preload []string
 }
 
 // get paginated data
@@ -38,6 +39,10 @@ func FetchPaginatedData[T any](model T, op Option) (list []T, count int64, err e
 
 	count = DB.Where(model).Find(&list).RowsAffected
 	query := DB.Where(model) // reset
+
+	for _, preload := range op.Preload {
+		query = query.Preload(preload)
+	}
 
 	// caculate page
 	offset := (op.PageInfo.Page - 1) * op.PageInfo.Limit

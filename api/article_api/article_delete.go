@@ -17,8 +17,8 @@ type IDListRequest struct {
 }
 
 func (ArticleApi) ArticleRemoveView(c *gin.Context) {
-	var cr IDListRequest
-	err := c.ShouldBindJSON(&cr)
+	var req IDListRequest
+	err := c.ShouldBindJSON(&req)
 	if err != nil {
 		global.Logger.Error(err)
 		res.FailWithCode(res.ParameterError, c)
@@ -26,7 +26,7 @@ func (ArticleApi) ArticleRemoveView(c *gin.Context) {
 	}
 
 	bulkService := global.ESClient.Bulk().Index(models.ArticleModel{}.Index()).Refresh("true")
-	for _, id := range cr.IDList {
+	for _, id := range req.IDList {
 		req := elastic.NewBulkDeleteRequest().Id(id)
 		bulkService.Add(req)
 		go es_service.DeleteFullTextByArticleID(id)

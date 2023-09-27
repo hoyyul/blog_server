@@ -7,8 +7,8 @@ import (
 
 func (rg RouterGroup) AdvertiseRouter() {
 	app := api.ApiGroupApp.AdvertiseApi
-	rg.POST("advertisement", middleware.CheckAdminToken(), app.AdvertiseCreateView)
-	rg.GET("advertisement", app.AdvertiseReadListView)
-	rg.PUT("advertisement/:id", middleware.CheckAdminToken(), app.AdvertiseUpdateView)
-	rg.DELETE("advertisement", middleware.CheckAdminToken(), app.AdvertiseDeletView)
+	rg.POST("adverts", middleware.CheckAdminToken(), app.AdvertiseCreateView)
+	rg.GET("adverts", app.AdvertiseReadListView)
+	rg.PUT("adverts/:id", middleware.CheckAdminToken(), app.AdvertiseUpdateView)
+	rg.DELETE("adverts", middleware.CheckAdminToken(), app.AdvertiseDeletView)
 }

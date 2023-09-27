@@ -12,17 +12,17 @@ import (
 )
 
 func (ArticleApi) ArticleContentByIDView(c *gin.Context) {
-	var cr models.ESIDRequest
-	err := c.ShouldBindUri(&cr)
+	var req models.ESIDRequest
+	err := c.ShouldBindUri(&req)
 	if err != nil {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
-	redis_service.NewArticleVisit().Set(cr.ID)
+	redis_service.NewArticleVisit().Set(req.ID)
 
 	result, err := global.ESClient.Get().
 		Index(models.ArticleModel{}.Index()).
-		Id(cr.ID).
+		Id(req.ID).
 		Do(context.Background())
 	if err != nil {
 		res.FailWithMessage("Failed to search", c)

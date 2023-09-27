@@ -9,19 +9,25 @@ import (
 type Option struct {
 	DB   bool
 	User string
-	ES   string
+	ES   bool
+	Dump string
+	Load string
 }
 
 func Parse() Option {
 	db := sys_flag.Bool("db", false, "Initialize database")
 	user := sys_flag.String("u", "", "Create user")
-	es := sys_flag.String("es", "", "es operation")
+	es := sys_flag.Bool("es", false, "es operation")
+	dump := sys_flag.String("dump", "", "dump index to json")
+	load := sys_flag.String("load", "", "load json to index")
 
 	sys_flag.Parse()
 	return Option{
 		*db,
 		*user,
 		*es,
+		*dump,
+		*load,
 	}
 }
 
@@ -51,8 +57,14 @@ func RunOption(op Option) {
 		CreateUser(op.User)
 		return
 	}
-	if op.ES == "create" {
-		EsCreateIndex()
+	if op.ES {
+		//global.ESClient = initialization.EsConnect()
+		if op.Dump != "" {
+			DumpIndex(op.Dump)
+		}
+		if op.Load != "" {
+			LoadIndex(op.Load)
+		}
 		return
 	}
 	sys_flag.Usage()

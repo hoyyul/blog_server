@@ -5,14 +5,24 @@ import (
 	"blog_server/models/res"
 	"blog_server/service/image_service"
 	"blog_server/utils"
+	"blog_server/utils/jwts"
 	"fmt"
+	"os"
 	"path"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (ImageApi) ImageUploadView(c *gin.Context) {
+	_claim, _ := c.Get("claim")
+	claim := _claim.(*jwts.CustomClaim)
+	if claim.Role == 3 {
+		res.FailWithMessage("Sign in to upload image", c)
+		return
+	}
+
 	file, err := c.FormFile("image")
 	if err != nil {
 		global.Logger.Error(err)
@@ -21,7 +31,7 @@ func (ImageApi) ImageUploadView(c *gin.Context) {
 	}
 	fileName := file.Filename
 	basePath := global.Config.Upload.Path
-	filePath := path.Join(basePath, fileName)
+	//filePath := path.Join(basePath, fileName)
 
 	nameList := strings.Split(fileName, ".")
 	suffix := strings.ToLower(nameList[len(nameList)-1])
@@ -36,6 +46,23 @@ func (ImageApi) ImageUploadView(c *gin.Context) {
 		res.FailWithMessage(msg, c)
 		return
 	}
+
+	// create /uploads/file/nick_name
+	dirList, err := os.ReadDir(basePath)
+	if err != nil {
+		res.FailWithMessage("Path doesn't exist", c)
+		return
+	}
+	if !isInDirEntry(dirList, claim.NickName) {
+		err := os.Mkdir(path.Join(basePath, claim.NickName), 077)
+		if err != nil {
+			global.Logger.Error(err)
+		}
+	}
+	now := time.Now().Format("20060102150405")
+	fileName = nameList[0] + "_" + now + "." + suffix
+	filePath := path.Join(basePath, claim.NickName, fileName)
+
 	err = c.SaveUploadedFile(file, filePath)
 	if err != nil {
 		res.FailWithMessage(err.Error(), c)
@@ -44,4 +71,13 @@ func (ImageApi) ImageUploadView(c *gin.Context) {
 
 	res.OkWithData("/"+filePath, c)
 
+}
+
+func isInDirEntry(dirList []os.DirEntry, name string) bool {
+	for _, entry := range dirList {
+		if entry.Name() == name && entry.IsDir() {
+			return true
+		}
+	}
+	return false
 }
