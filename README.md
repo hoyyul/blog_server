@@ -58,11 +58,7 @@ blog
 ├── docs
 ├── flag
 ├── global
-├── go.mod
-├── go.sum
 ├── initialization
-├── main
-├── main.go
 ├── middleware
 ├── models
 │   ├── ctype
@@ -82,7 +78,6 @@ blog
 │   ├── redis_service
 │   ├── synchro_service
 │   └── user_service
-├── settings.yaml
 ├── test
 │   ├── 1.flag
 │   ├── 10.randomNameAvatar
@@ -106,7 +101,6 @@ blog
     ├── jwts
     ├── mask
     ├── pwd
-    ├── reverse.go
     └── verification
 ```
 
