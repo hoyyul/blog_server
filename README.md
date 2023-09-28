@@ -34,7 +34,7 @@ This is the backend for a decoupled personal blog project, with the frontend pro
 - インログのログ
 - 文章のカテゴリ分け、ブックマーク、いいね、データ統計、全文検索
 - 第三者ログイン（第三者による審査中）
-- コメント数、記事数、記事のいいね数、コメントのいいね数、過去7日間のユーザーログインの追跡。（Redis+Elasticsearch）
+- コメント数、記事数、記事のいいね数、コメントのいいね数、過去7日間のユーザーログイン数。（Redis+Elasticsearch）
 - クラウドストレージ（AWS）
 
 ## Project Structure
@@ -104,7 +104,7 @@ blog
     └── verification
 ```
 
-## Frontend(fine-tuning)
+## Frontend(coding)
 user login log
 ![user login log](preview/pre1.png)
 
