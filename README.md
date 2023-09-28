@@ -1,7 +1,7 @@
 # blog_server
 This is the backend for a decoupled personal blog project, with the frontend provided by a collaborator. **This project is built upon gin, gorm, MySQL, Redis, and Elasticsearch.**
 
-バックエンドとフロントエンドが分離された個人のブログプロジェクトです。フロントエンドは協力者によって提供されます。**このプロジェクトは、gin、gorm、MySQL、Redis、およびElasticsearchを基盤として構築されています。**
+バックエンドとフロントエンドが分離された個人のブログプロジェクトです。フロントエンドは協力者によって提供されます。**このプロジェクトは、gin、gorm、MySQL、Redis、およびElasticsearchを基に構築されています。**
 
 ## Dependency
 - go
@@ -28,7 +28,7 @@ This is the backend for a decoupled personal blog project, with the frontend pro
 - cloud storage(aws)
 
 ### Japanese
-- 広告、文章、ニュース、画像、メニュー、タグ、コメントの作成、読み取り、削除、更新
+- 広告、記事、ニュース、画像、メニュー、タグ、コメントの作成、読み取り、削除、更新
 - ユーザーのメールアドレスを紐づけ、パスワードを変更、登録/ログイン（JWT）
 - オンラインチャット/グループチャット（WebSocket）
 - インログのログ
