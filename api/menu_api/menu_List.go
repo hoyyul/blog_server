@@ -19,19 +19,20 @@ type MenuResponse struct {
 	Banners []Banner `json:"banners"`
 }
 
-func (MenuApi) MenuReadListView(c *gin.Context) {
+func (MenuApi) MenuListView(c *gin.Context) {
 	// get menu
 	var menuList []models.MenuModel
 	var menuIDList []uint
-	global.DB.Order("sort desc").Find(&menuList).Select("id").Scan(&menuIDList) // scan database type to string type, "myblog\nforfun"->["myblog", "for fun"]
+	global.DB.Order("sort desc").Find(&menuList).Select("id").Scan(&menuIDList)
 	// get menu-banner model
 	var menuBanners []models.MenuBannerModel
 	global.DB.Preload(clause.Associations).Order("sort desc").Find(&menuBanners, "menu_id in ?", menuIDList)
 	var menus = make([]MenuResponse, 0)
+
 	for _, model := range menuList {
 		var banners = make([]Banner, 0)
 		for _, record := range menuBanners {
-			if model.ID == record.MenuID {
+			if model.ID != record.MenuID {
 				continue
 			}
 			banners = append(banners, Banner{
@@ -44,5 +45,5 @@ func (MenuApi) MenuReadListView(c *gin.Context) {
 			Banners:   banners,
 		})
 	}
-	res.OkWithData(menus, c)
+	res.OkWithList(menus, int64(len(menus)), c)
 }

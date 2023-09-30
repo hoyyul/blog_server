@@ -8,9 +8,10 @@ import (
 func (rg RouterGroup) MenuRouter() {
 	app := api.ApiGroupApp.MenuApi
 	rg.POST("menus", middleware.CheckAdminToken(), app.MenuCreateView)
-	rg.GET("menus/:id", app.MenuGetView)
-	rg.GET("menus", app.MenuReadListView)
-	rg.GET("menu_names", app.MenuReadNameList)
+	rg.GET("menus/:id", app.MenuDetailView)
+	rg.GET("menus", app.MenuListView)
+	rg.GET("menu_names", app.MenuNameList)
+	rg.GET("menus/detail", app.MenuDetailByPathView)
 	rg.PUT("menus/:id", middleware.CheckAdminToken(), app.MenuUpdateView)
-	rg.DELETE("menus", middleware.CheckAdminToken(), app.MenuRemoveView)
+	rg.DELETE("menus", middleware.CheckAdminToken(), app.MenuRemoveListView)
 }

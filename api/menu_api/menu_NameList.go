@@ -14,7 +14,7 @@ type MenuReadNameResponse struct {
 	Path  string `json:"path"`
 }
 
-func (MenuApi) MenuReadNameList(c *gin.Context) {
+func (MenuApi) MenuNameList(c *gin.Context) {
 	var menuNameList []MenuReadNameResponse
 	global.DB.Model(models.MenuModel{}).Select("id", "title", "path").Scan(&menuNameList)
 	res.OkWithData(menuNameList, c)

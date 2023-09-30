@@ -52,4 +52,5 @@ func (ImageApi) ImageCreateListView(c *gin.Context) {
 	}
 
 	res.OkWithData(responseList, c)
+	//fmt.Println("hello")
 }

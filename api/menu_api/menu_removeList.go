@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (MenuApi) MenuRemoveView(c *gin.Context) {
+func (MenuApi) MenuRemoveListView(c *gin.Context) {
 	var req models.RemoveRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

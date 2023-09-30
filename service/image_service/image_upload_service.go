@@ -110,17 +110,16 @@ func handleImageStorage(image *multipart.FileHeader, imageFile multipart.File, i
 			Msg:        err.Error(),
 		}
 	}
-
 	// save to database
 	global.DB.Create(&models.BannerModel{
-		Path:            storagePath,
+		Path:            fmt.Sprintf("/%s", storagePath),
 		Hash:            imageHash,
 		Name:            image.Filename,
 		StorageLocation: storageLocation,
 	})
 
 	return FileUploadResponse{
-		FileName:   storagePath,
+		FileName:   fmt.Sprintf("/%s", storagePath),
 		IsUploaded: true,
 		Msg:        "File uploaded successfully",
 	}

@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func (MenuApi) MenuGetView(c *gin.Context) {
+func (MenuApi) MenuDetailView(c *gin.Context) {
 	// search menu table
 	id := c.Param("id")
 	var menuModel models.MenuModel

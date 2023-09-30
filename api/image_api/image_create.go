@@ -62,15 +62,14 @@ func (ImageApi) ImageUploadView(c *gin.Context) {
 	now := time.Now().Format("20060102150405")
 	fileName = nameList[0] + "_" + now + "." + suffix
 	filePath := path.Join(basePath, claim.NickName, fileName)
-
+	//fmt.Println(filePath)
 	err = c.SaveUploadedFile(file, filePath)
 	if err != nil {
 		res.FailWithMessage(err.Error(), c)
 		return
 	}
 
-	res.OkWithData("/"+filePath, c)
-
+	res.OkWithData(filePath, c)
 }
 
 func isInDirEntry(dirList []os.DirEntry, name string) bool {
