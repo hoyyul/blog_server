@@ -9,7 +9,7 @@ import (
 	"github.com/liu-cn/json-filter/filter"
 )
 
-func (ChatApi) ChatReadListView(c *gin.Context) {
+func (ChatApi) ChatListView(c *gin.Context) {
 	var req models.PageInfo
 	err := c.ShouldBindQuery(&req)
 	if err != nil {

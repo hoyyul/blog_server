@@ -7,6 +7,6 @@ import (
 
 func (rg RouterGroup) LogRouter() {
 	app := api.ApiGroupApp.LogApi
-	rg.GET("logs", app.LogReadListView)
-	rg.DELETE("logs", middleware.CheckAdminToken(), app.LogDeleteListView)
+	rg.GET("logs", app.LogListView)
+	rg.DELETE("logs", middleware.CheckAdminToken(), app.LogRemoveListView)
 }

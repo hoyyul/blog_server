@@ -12,7 +12,7 @@ type ESIDRequest struct {
 	ID string `json:"id" form:"id" uri:"id"`
 }
 
-func (ArticleApi) ArticleReadDetailView(c *gin.Context) {
+func (ArticleApi) ArticleDetailView(c *gin.Context) {
 	var req ESIDRequest
 	err := c.ShouldBindUri(&req)
 	if err != nil {
@@ -32,7 +32,7 @@ type ArticleDetailRequest struct {
 	Title string `json:"title" form:"title"`
 }
 
-func (ArticleApi) ArticleReadDetailByTitleView(c *gin.Context) {
+func (ArticleApi) ArticleDetailByTitleView(c *gin.Context) {
 	var req ArticleDetailRequest
 	err := c.ShouldBindQuery(&req)
 	if err != nil {

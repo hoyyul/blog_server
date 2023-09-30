@@ -19,7 +19,7 @@ type ArticleSearchRequest struct {
 	IsUser bool   `json:"is_user" form:"is_user"` // if user collected
 }
 
-func (ArticleApi) ArticleReadListView(c *gin.Context) {
+func (ArticleApi) ArticleListView(c *gin.Context) {
 	var req ArticleSearchRequest
 	if err := c.ShouldBindQuery(&req); err != nil {
 		res.FailWithCode(res.ParameterError, c)

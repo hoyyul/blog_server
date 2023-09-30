@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (CommentApi) CommentDeleteView(c *gin.Context) {
+func (CommentApi) CommentRemoveView(c *gin.Context) {
 	var req CommentIDRequest
 	err := c.ShouldBindUri(&req)
 	if err != nil {

@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ImageApi) ImageCreateListView(c *gin.Context) {
+func (ImageApi) ImageUploadListView(c *gin.Context) {
 	_claim, _ := c.Get("claim")
 	claim := _claim.(*jwts.CustomClaim)
 	if claim.Role == 3 {

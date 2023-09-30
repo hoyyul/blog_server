@@ -12,7 +12,7 @@ import (
 type MessageGroup map[uint]*Message
 
 // find chat history between one user and other users
-func (MessageApi) MessageReadHistoryView(c *gin.Context) {
+func (MessageApi) MessageHistoryView(c *gin.Context) {
 	_claim, _ := c.Get("claim")
 	claim := _claim.(*jwts.CustomClaim)
 

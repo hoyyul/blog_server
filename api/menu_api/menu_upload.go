@@ -25,7 +25,7 @@ type MenuRequest struct {
 	ImageSortList []ImageSort `json:"image_sort_list" structs:"-"` // image sort
 }
 
-func (MenuApi) MenuCreateView(c *gin.Context) {
+func (MenuApi) MenuUploadView(c *gin.Context) {
 	var req MenuRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

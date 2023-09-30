@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (TagApi) TagDeleteListView(c *gin.Context) {
+func (TagApi) TagRemoveListView(c *gin.Context) {
 	var req models.RemoveRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

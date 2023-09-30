@@ -29,7 +29,7 @@ type BucketsResponse struct {
 
 var DateCount = map[string]int{}
 
-func (ArticleApi) ArticleReadCalendarCountView(c *gin.Context) {
+func (ArticleApi) ArticleCalendarCountView(c *gin.Context) {
 	agg := elastic.NewDateHistogramAggregation().Field("created_at").CalendarInterval("day")
 
 	// time set

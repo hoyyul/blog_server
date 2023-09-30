@@ -27,7 +27,7 @@ type ArticleRequest struct {
 	Tags     []string `json:"tags"`
 }
 
-func (ArticleApi) ArticleCreateView(c *gin.Context) {
+func (ArticleApi) ArticleUploadView(c *gin.Context) {
 	var req ArticleRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (MessageApi) MessageCreateView(c *gin.Context) {
+func (MessageApi) MessageUploadView(c *gin.Context) {
 	var req MessageRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

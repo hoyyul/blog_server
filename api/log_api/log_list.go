@@ -14,7 +14,7 @@ type LogRequest struct {
 	Level log_stash.Level `form:"level"`
 }
 
-func (LogApi) LogReadListView(c *gin.Context) {
+func (LogApi) LogListView(c *gin.Context) {
 	var req LogRequest
 	c.ShouldBindQuery(&req)
 	list, count, _ := common_service.FetchPaginatedData[log_stash.LogStashModel](log_stash.LogStashModel{Level: req.Level}, common_service.Option{

@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (SettingApi) SettingReadView(c *gin.Context) {
+func (SettingApi) SettingView(c *gin.Context) {
 	var uri SiteUri
 	err := c.ShouldBindUri(&uri)
 

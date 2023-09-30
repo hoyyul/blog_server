@@ -23,5 +23,5 @@ func (rg RouterGroup) UserRouter() {
 	rg.PUT("users", middleware.CheckAdminToken(), app.UserUpdateView)
 	rg.PUT("user_password", middleware.CheckAuthToken(), app.UserUpdatePassword)
 	rg.PUT("user_info", middleware.CheckAuthToken(), app.UserUpdateNickName)
-	rg.DELETE("users", middleware.CheckAdminToken(), app.UserDeleteListView)
+	rg.DELETE("users", middleware.CheckAdminToken(), app.UserRemoveListView)
 }

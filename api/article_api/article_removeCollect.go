@@ -14,7 +14,7 @@ import (
 	"github.com/olivere/elastic/v7"
 )
 
-func (ArticleApi) ArticleDeleteCollectView(c *gin.Context) {
+func (ArticleApi) ArticleRemoveCollectView(c *gin.Context) {
 	var req models.ESIDListRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

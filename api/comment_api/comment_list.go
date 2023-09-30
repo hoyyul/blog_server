@@ -15,7 +15,7 @@ type CommentListRequest struct {
 	ArticleID string `form:"id" uri:"id" json:"id"`
 }
 
-func (CommentApi) CommentReadListView(c *gin.Context) {
+func (CommentApi) CommentListView(c *gin.Context) {
 	var req CommentListRequest
 	err := c.ShouldBindUri(&req)
 	if err != nil {

@@ -33,7 +33,7 @@ type NewsResponse struct {
 const newAPI = "https://api.codelife.cc/api/top/list"
 const timeout = 2 * time.Second
 
-func (NewsApi) NewsReadListView(c *gin.Context) {
+func (NewsApi) NewsListView(c *gin.Context) {
 	var req params
 	var headers header
 	c.ShouldBindJSON(&req)

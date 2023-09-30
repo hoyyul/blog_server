@@ -18,7 +18,7 @@ type CommentRequest struct {
 	ParentCommentID *uint  `json:"parent_comment_id"` // parent id
 }
 
-func (CommentApi) CommentCreateView(c *gin.Context) {
+func (CommentApi) CommentUploadView(c *gin.Context) {
 	var req CommentRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (UserApi) UserDeleteListView(c *gin.Context) {
+func (UserApi) UserRemoveListView(c *gin.Context) {
 	var req models.RemoveRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

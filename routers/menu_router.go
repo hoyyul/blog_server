@@ -7,7 +7,7 @@ import (
 
 func (rg RouterGroup) MenuRouter() {
 	app := api.ApiGroupApp.MenuApi
-	rg.POST("menus", middleware.CheckAdminToken(), app.MenuCreateView)
+	rg.POST("menus", middleware.CheckAdminToken(), app.MenuUploadView)
 	rg.GET("menus/:id", app.MenuDetailView)
 	rg.GET("menus", app.MenuListView)
 	rg.GET("menu_names", app.MenuNameList)

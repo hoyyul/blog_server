@@ -12,7 +12,7 @@ type TagRequest struct {
 	Title string `json:"title" binding:"required" msg:"Enter a title" structs:"title"`
 }
 
-func (TagApi) TagCreateView(c *gin.Context) {
+func (TagApi) TagUploadView(c *gin.Context) {
 	var req TagRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

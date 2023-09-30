@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ArticleApi) ArticleCollCreateView(c *gin.Context) {
+func (ArticleApi) ArticleCollectView(c *gin.Context) {
 	var req models.ESIDRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {

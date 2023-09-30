@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ImageApi) ImageDeleteListView(c *gin.Context) {
+func (ImageApi) ImageRemoveListView(c *gin.Context) {
 	var req models.RemoveRequest
 	err := c.ShouldBindJSON(&req)
 

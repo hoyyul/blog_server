@@ -9,15 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AdvertiseDeletView Remove Advertisements
-// @Tags Advertisement Management
-// @Summary Remove Advertisements
-// @Description Remove Advertisements
-// @Param data body models.RemoveRequest    true  "Advertisement idList"
-// @Router /api/advertisement [delete]
-// @Produce json
-// @Success 200 {object} res.Response{data=string}
-func (AdvertiseApi) AdvertiseDeletView(c *gin.Context) {
+func (AdvertiseApi) AdvertiseRemoveView(c *gin.Context) {
 	var req models.RemoveRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
