@@ -41,7 +41,7 @@ func (ImageService) ProcessImage(image *multipart.FileHeader, c *gin.Context) (r
 	res.FileName = imageName
 
 	// get image hash value used in database
-	imageFile, err := image.Open() // return *os.file, err
+	imageFile, err := image.Open()
 	if err != nil {
 		global.Logger.Error(err)
 	}
@@ -110,16 +110,18 @@ func handleImageStorage(image *multipart.FileHeader, imageFile multipart.File, i
 			Msg:        err.Error(),
 		}
 	}
+
 	// save to database
+	storagePath = fmt.Sprintf("/%s", storagePath)
 	global.DB.Create(&models.BannerModel{
-		Path:            fmt.Sprintf("/%s", storagePath),
+		Path:            storagePath,
 		Hash:            imageHash,
 		Name:            image.Filename,
 		StorageLocation: storageLocation,
 	})
 
 	return FileUploadResponse{
-		FileName:   fmt.Sprintf("/%s", storagePath),
+		FileName:   storagePath,
 		IsUploaded: true,
 		Msg:        "File uploaded successfully",
 	}

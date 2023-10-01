@@ -15,6 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// m
 func (ImageApi) ImageUploadView(c *gin.Context) {
 	_claim, _ := c.Get("claim")
 	claim := _claim.(*jwts.CustomClaim)
@@ -31,7 +32,6 @@ func (ImageApi) ImageUploadView(c *gin.Context) {
 	}
 	fileName := file.Filename
 	basePath := global.Config.Upload.Path
-	//filePath := path.Join(basePath, fileName)
 
 	nameList := strings.Split(fileName, ".")
 	suffix := strings.ToLower(nameList[len(nameList)-1])
@@ -62,7 +62,6 @@ func (ImageApi) ImageUploadView(c *gin.Context) {
 	now := time.Now().Format("20060102150405")
 	fileName = nameList[0] + "_" + now + "." + suffix
 	filePath := path.Join(basePath, claim.NickName, fileName)
-	//fmt.Println(filePath)
 	err = c.SaveUploadedFile(file, filePath)
 	if err != nil {
 		res.FailWithMessage(err.Error(), c)

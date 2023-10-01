@@ -20,29 +20,28 @@ func (ImageApi) ImageUploadListView(c *gin.Context) {
 		return
 	}
 
-	imageForm, err := c.MultipartForm()
+	// if path not exists, make the dir
+	basePath := global.Config.Upload.Path
+	_, err := os.ReadDir(basePath) // read
+	if err != nil {
+		err = os.MkdirAll(basePath, fs.ModePerm) // create
+		if err != nil {
+			global.Logger.Error(err)
+		}
+	}
 
+	// get image list
+	imageForm, err := c.MultipartForm() // form-data
 	if err != nil {
 		global.Logger.Error(err)
 		res.FailWithMessage(err.Error(), c)
 		return
 	}
-
 	imageList, ok := imageForm.File["images"]
 	if !ok {
 		global.Logger.Error(err)
 		res.FailWithCode(res.ParameterError, c)
 		return
-	}
-
-	// if path not exists, make the dir
-	basePath := global.Config.Upload.Path
-	_, err = os.ReadDir(basePath)
-	if err != nil {
-		err = os.MkdirAll(basePath, fs.ModePerm)
-		if err != nil {
-			global.Logger.Error(err)
-		}
 	}
 
 	// process images
@@ -52,5 +51,4 @@ func (ImageApi) ImageUploadListView(c *gin.Context) {
 	}
 
 	res.OkWithData(responseList, c)
-	//fmt.Println("hello")
 }

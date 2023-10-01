@@ -8,13 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ImageUpdateRequest struct {
-	ID   uint   `json:"id" binding:"required" msg:"Enter image id"`
-	Name string `json:"name" binding:"required" msg:"Enter new image name"`
-}
-
 /*
-Only change image name in database
+Only change image name in database, without changing path in local
 */
 func (ImageApi) ImageUpdateName(c *gin.Context) {
 	var req ImageUpdateRequest
