@@ -22,17 +22,17 @@ upload:
 site_info:
   created_at: "2023-09-26"
   title: HalluTech
-  qq_image: https://assets.leetcode.com/users/leetcode/avatar_1568224780.png
+  qq_image: http://localhost/static/footer/qq.png
   version: 1.0.0
   email: 1085494156@qq.com
-  wechat_image: https://assets.leetcode.com/users/leetcode/avatar_1568224780.png
+  wechat_image: http://localhost/static/footer/wechat.png
   name: HalluTech
   job: developer
   addr: Osaka
   slogan: HalluTech
   slogan_en: Hallu技术派
-  web: https://github.com/
-  github_url: https://github.com/
+  web: http://www.hallutech.com/
+  github_url: https://github.com/hoyyul
 qq:
   app_id: xx
   key: xx

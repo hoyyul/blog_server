@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ImageApi) ImageReadListView(c *gin.Context) {
+func (ImageApi) ImageListView(c *gin.Context) {
 	var page models.PageInfo
 	err := c.ShouldBindQuery(&page)
 

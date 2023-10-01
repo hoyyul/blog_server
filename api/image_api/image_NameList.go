@@ -14,14 +14,7 @@ type ImageResponse struct {
 	Name string `json:"name"`
 }
 
-// ImageReadNameListViewGet Image name list
-// @Tags Image Management
-// @Summary Get Image name list
-// @Description Get Image name list
-// @Router /api/image_names [get]
-// @Produce json
-// @Success 200 {object} res.Response{data=[]ImageResponse}
-func (ImageApi) ImageReadNameListView(c *gin.Context) {
+func (ImageApi) ImageNameListView(c *gin.Context) {
 	var imageList []ImageResponse
 	global.DB.Model(models.BannerModel{}).Select("id", "path", "name").Scan(&imageList)
 	res.OkWithData(imageList, c)
