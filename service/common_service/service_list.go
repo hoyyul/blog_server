@@ -31,10 +31,10 @@ func FetchPaginatedData[T any](model T, op Option) (list []T, count int64, err e
 	DB = DB.Model(&model).Where(model)
 	for index, column := range op.Likes {
 		if index == 0 {
-			DB.Where(fmt.Sprintf("%s like ?", column), fmt.Sprintf("%%%s%%", op.Key)) // 在op.likes中的col的值是否包含op.Key关键字S
+			DB = DB.Where(fmt.Sprintf("%s like ?", column), fmt.Sprintf("%%%s%%", op.Key)) // 在op.likes中的col的值是否包含op.Key关键字S
 			continue
 		}
-		DB.Or(fmt.Sprintf("%s like ?", column), fmt.Sprintf("%%%s%%", op.Key))
+		DB = DB.Or(fmt.Sprintf("%s like ?", column), fmt.Sprintf("%%%s%%", op.Key))
 	}
 
 	DB.Count(&count)

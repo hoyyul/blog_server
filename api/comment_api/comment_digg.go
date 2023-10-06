@@ -10,8 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type CommentIDRequest struct { //should also article id?
-	ID uint `json:"id" form:"id" uri:"id"`
+type CommentIDRequest struct {
+	ID uint `json:"id" form:"id" uri:"id"` // comment id
 }
 
 func (CommentApi) CommentDiggView(c *gin.Context) {

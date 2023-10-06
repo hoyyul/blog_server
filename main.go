@@ -6,6 +6,7 @@ import (
 	"blog_server/global"
 	"blog_server/initialization"
 	"blog_server/routers"
+	"blog_server/service/synchro_service"
 	"blog_server/utils"
 )
 
@@ -33,6 +34,9 @@ func main() {
 
 	// Initialize router
 	router := routers.InitRouter()
+
+	// Start the scheduled task
+	synchro_service.CronInit()
 
 	option := flag.Parse()
 	if flag.IsWebStop(option) {

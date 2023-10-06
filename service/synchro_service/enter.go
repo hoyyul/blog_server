@@ -8,7 +8,7 @@ import (
 )
 
 func CronInit() {
-	timezone, err := time.LoadLocation("Asia/Shanghai")
+	timezone, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
 		logrus.Error(err.Error())
 		return

@@ -151,7 +151,7 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 	// clear setting
 	defer conn.Close()
 
-	// remove addr from conn map
+	// remove chatuser from conn map
 	delete(ConnGroupMap, addr)
 }
 

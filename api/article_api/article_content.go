@@ -18,7 +18,7 @@ func (ArticleApi) ArticleContentByIDView(c *gin.Context) {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
-	redis_service.NewArticleVisit().Set(req.ID)
+	redis_service.NewArticleVisit().Set(req.ID) // visit
 
 	result, err := global.ESClient.Get().
 		Index(models.ArticleModel{}.Index()).

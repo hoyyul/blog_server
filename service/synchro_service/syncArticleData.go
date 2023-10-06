@@ -22,7 +22,7 @@ func SyncArticleData() {
 		return
 	}
 
-	diggInfo := redis_service.NewCommentCount().GetInfo()
+	diggInfo := redis_service.NewArticleDigg().GetInfo()
 	lookInfo := redis_service.NewArticleVisit().GetInfo()
 	commentInfo := redis_service.NewCommentCount().GetInfo()
 	for _, hit := range result.Hits.Hits {

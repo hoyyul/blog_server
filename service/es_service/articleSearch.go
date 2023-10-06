@@ -132,6 +132,11 @@ func GetDetailByKeyword(key string) (model models.ArticleModel, err error) {
 		return
 	}
 	model.ID = hit.Id
+
+	// get count from redis
+	model.DiggCount = model.DiggCount + redis_service.NewArticleDigg().Get(model.ID)
+	model.LookCount = model.LookCount + redis_service.NewArticleVisit().Get(model.ID)
+	model.CommentCount = model.CommentCount + redis_service.NewCommentCount().Get(model.ID)
 	return
 }
 

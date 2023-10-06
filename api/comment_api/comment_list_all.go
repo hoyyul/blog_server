@@ -39,9 +39,9 @@ func (CommentApi) CommentListAllView(c *gin.Context) {
 
 	var collMap = map[string]models.ArticleModel{}
 	var articleIDList []interface{}
+
 	for _, model := range list {
 		articleIDList = append(articleIDList, model.ArticleID)
-		collMap[model.ArticleID] = models.ArticleModel{}
 	}
 	boolSearch := elastic.NewTermsQuery("_id", articleIDList...)
 	result, err := global.ESClient.

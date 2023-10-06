@@ -36,12 +36,10 @@ func FindArticleCommentList(articleID string) (rootCommentList []*models.Comment
 		var subCommentList, newSubCommentList []models.CommentModel
 		Recursion(*model, &subCommentList)
 		for _, commentModel := range subCommentList {
-			digg := diggInfo[fmt.Sprintf("%d", commentModel.ID)]
-			commentModel.DiggCount = commentModel.DiggCount + digg
+			commentModel.DiggCount = commentModel.DiggCount + diggInfo[fmt.Sprintf("%d", commentModel.ID)]
 			newSubCommentList = append(newSubCommentList, commentModel)
 		}
-		modelDigg := diggInfo[fmt.Sprintf("%d", model.ID)]
-		model.DiggCount = model.DiggCount + modelDigg
+		model.DiggCount = model.DiggCount + diggInfo[fmt.Sprintf("%d", model.ID)]
 		model.SubComments = newSubCommentList
 	}
 	return
