@@ -18,6 +18,7 @@ func (rg RouterGroup) ArticleRouter() {
 	rg.GET("articles/text", app.FullTextSearchView)
 	rg.GET("articles/digg", app.ArticleDiggView)
 	rg.GET("article_id_title", app.ArticleIDTitleListView)
+	rg.GET("articles/tags", app.ArticleTagListView)
 	rg.PUT("articles", middleware.CheckAdminToken(), app.ArticleUpdateView)
 	rg.DELETE("articles", middleware.CheckAdminToken(), app.ArticleRemoveView)
 	rg.DELETE("articles/collects", middleware.CheckAuthToken(), app.ArticleRemoveCollectView)

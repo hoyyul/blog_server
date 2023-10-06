@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 
 	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
@@ -171,13 +170,7 @@ func FindList(key string, page, limit int) (demoList []DemoModel, count int) {
 	for _, hit := range res.Hits.Hits {
 		var demo DemoModel
 
-		data, err := hit.Source.MarshalJSON()
-		if err != nil {
-			logrus.Error(err.Error())
-			continue
-		}
-
-		err = json.Unmarshal(data, &demo)
+		err := json.Unmarshal(hit.Source, &demo)
 		if err != nil {
 			logrus.Error(err)
 			continue
@@ -220,16 +213,13 @@ func FindSourceList(key string, page, limit int) {
 	demoList := []DemoModel{}
 	for _, hit := range res.Hits.Hits {
 		var demo DemoModel
-		data, err := hit.Source.MarshalJSON()
-		if err != nil {
-			logrus.Error(err.Error())
-			continue
-		}
-		err = json.Unmarshal(data, &demo)
+
+		err := json.Unmarshal(hit.Source, &demo)
 		if err != nil {
 			logrus.Error(err)
 			continue
 		}
+
 		demo.ID = hit.Id
 		demoList = append(demoList, demo)
 	}
@@ -265,5 +255,5 @@ func Remove(idList []string) (count int, err error) {
 
 func main() {
 	//DemoModel{}.CreateIndex()
-	Create(&DemoModel{Title: "GoLang", UserID: 2, CreatedAt: time.Now().Format("2006-01-02 15:04:05")})
+	//Create(&DemoModel{Title: "GoLang", UserID: 2, CreatedAt: time.Now().Format("2006-01-02 15:04:05")})
 }

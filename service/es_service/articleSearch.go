@@ -55,6 +55,7 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 		Query(boolSearch).
 		Highlight(elastic.NewHighlight().Field("title")). // highlight title if search by title
 		From(option.GetForm()).
+		Sort(sortField.Field, sortField.Ascending).
 		Size(option.Limit).
 		Do(context.Background())
 	if err != nil {
@@ -64,9 +65,6 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 
 	count = int(res.Hits.TotalHits.Value)
 
-	diggInfo := redis_service.NewArticleDigg().GetInfo()
-	visitInfo := redis_service.NewArticleVisit().GetInfo()
-	commentInfo := redis_service.NewCommentCount().GetInfo()
 	// save hit to struct
 	for _, hit := range res.Hits.Hits {
 		var article models.ArticleModel
@@ -84,14 +82,10 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 
 		article.ID = hit.Id // id = _id
 
-		// get dig count from redis
-		digg := diggInfo[hit.Id]
-		visit := visitInfo[hit.Id]
-		comment := commentInfo[hit.Id]
-		//fmt.Println(hit.Id, visit, comment)
-		article.DiggCount = article.DiggCount + digg
-		article.LookCount = article.LookCount + visit
-		article.CommentCount = article.CommentCount + comment
+		// get count from redis
+		article.DiggCount = article.DiggCount + redis_service.NewArticleDigg().Get(hit.Id)
+		article.LookCount = article.LookCount + redis_service.NewArticleVisit().Get(hit.Id)
+		article.CommentCount = article.CommentCount + redis_service.NewCommentCount().Get(hit.Id)
 
 		articleList = append(articleList, article)
 	}
@@ -111,7 +105,11 @@ func GetDetail(id string) (article models.ArticleModel, err error) {
 		return
 	}
 	article.ID = res.Id
-	article.LookCount = article.LookCount + redis_service.NewArticleVisit().Get(res.Id)
+
+	// get count from redis
+	article.DiggCount = article.DiggCount + redis_service.NewArticleDigg().Get(id)
+	article.LookCount = article.LookCount + redis_service.NewArticleVisit().Get(id)
+	article.CommentCount = article.CommentCount + redis_service.NewCommentCount().Get(id)
 	return
 }
 

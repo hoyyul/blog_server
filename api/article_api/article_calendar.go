@@ -30,14 +30,11 @@ type BucketsResponse struct {
 var DateCount = map[string]int{}
 
 func (ArticleApi) ArticleCalendarCountView(c *gin.Context) {
+	// 1.date aggregation search
 	agg := elastic.NewDateHistogramAggregation().Field("created_at").CalendarInterval("day")
-
-	// time set
 	now := time.Now()
 	aYearAgo := now.AddDate(-1, 0, 0)
 	format := "2006-01-02 15:04:05"
-
-	// search the es
 	query := elastic.NewRangeQuery("created_at").
 		Gte(aYearAgo.Format(format)).
 		Lte(now.Format(format))
@@ -54,19 +51,17 @@ func (ArticleApi) ArticleCalendarCountView(c *gin.Context) {
 		return
 	}
 
-	// save data
+	// 2.precess buckets(bucket with article count for each interval)
 	var buckets BucketsResponse
 	_ = json.Unmarshal(result.Aggregations["calendar"], &buckets)
 	var resList = make([]CalendarResponse, 0)
-
-	// set doc count map
 	for _, bucket := range buckets.Buckets { // len(buckets.Buckets) <= 365
-		_time, _ := time.Parse(format, bucket.KeyAsString)      // get time type by given format
-		DateCount[_time.Format("2006-01-02")] = bucket.DocCount // transfer the time to string
+		_time, _ := time.Parse(format, bucket.KeyAsString)      // get time type by given format; bucket.KeyAsString is like 2006-01-02 00:00:00
+		DateCount[_time.Format("2006-01-02")] = bucket.DocCount // _time.Format("2006-01-02") transfer the time to string
 	}
 
-	// save to resList
-	days := int(now.Sub(aYearAgo).Hours() / 24) // 365
+	// 3.save to resList
+	days := int(now.Sub(aYearAgo).Hours() / 24) // 365 or 366
 	for i := 0; i <= days; i++ {
 		day := aYearAgo.AddDate(0, 0, i).Format("2006-01-02")
 		count := DateCount[day]

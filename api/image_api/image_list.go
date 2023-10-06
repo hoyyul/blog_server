@@ -28,6 +28,6 @@ func (ImageApi) ImageListView(c *gin.Context) {
 		res.FailWithMessage(err.Error(), c)
 		return
 	}
-
+	//fmt.Println(imageList)
 	res.OkWithList(imageList, count, c)
 }

@@ -10,7 +10,7 @@ import (
 const newsIndex = "news_index"
 
 type NewsData struct {
-	Index    string `json:"index"`
+	Index    int    `json:"index"`
 	Title    string `json:"title"`
 	HotValue string `json:"hotValue"`
 	Link     string `json:"link"`

@@ -23,7 +23,7 @@ type SearchData struct {
 // save and return markdown data to SearchData struct with plain text and title
 func GetSearchIndexDataByContent(id, title, content string) (searchDataList []SearchData) {
 	data := strings.Split(content, "\n")
-	var isBody bool = false
+	var isCode bool = false
 	var titleList, bodyList []string
 	var body string
 
@@ -32,16 +32,18 @@ func GetSearchIndexDataByContent(id, title, content string) (searchDataList []Se
 
 	// add header title and body to list
 	for _, s := range data {
-		// check if body
+		// code
 		if strings.HasPrefix(s, "```") {
-			isBody = !isBody
+			isCode = !isCode
 		}
-		if strings.HasPrefix(s, "#") && !isBody {
+		// title
+		if strings.HasPrefix(s, "#") && !isCode {
 			titleList = append(titleList, getTitle(s))
 			bodyList = append(bodyList, getBody(body)) // transfer markdown to plain text
 			body = ""
 			continue
 		}
+		// body
 		body += s
 	}
 	bodyList = append(bodyList, getBody(body))

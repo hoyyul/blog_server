@@ -59,6 +59,7 @@ func RunOption(op Option) {
 	}
 	if op.ES {
 		//global.ESClient = initialization.EsConnect()
+		//EsCreateIndex()
 		if op.Dump != "" {
 			DumpIndex(op.Dump)
 		}

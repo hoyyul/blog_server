@@ -12,7 +12,7 @@ type BannerModel struct {
 	Path            string                `json:"path"`
 	Hash            string                `json:"hash"`
 	Name            string                `json:"name"`
-	StorageLocation ctype.StorageLocation `gorm:"default:1" json:"storage_location"` // local or cloud
+	StorageLocation ctype.StorageLocation `gorm:"default:1" json:"image_type"` // local or cloud
 }
 
 // hook function to remove image from local path
