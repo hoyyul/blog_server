@@ -16,6 +16,7 @@ func GetAddrByGin(c *gin.Context) (ip, addr string) {
 
 func GetAddr(ip string) string {
 	parseIP := net.ParseIP(ip)
+	// if internal net
 	if IsIntranetIP(parseIP) {
 		return "Internal Network Address"
 	}

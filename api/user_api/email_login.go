@@ -60,6 +60,7 @@ func (UserApi) EmailLoginView(c *gin.Context) {
 		return
 	}
 
+	// log
 	logger = log_stash.New(c.ClientIP(), token)
 	ip, addr := utils.GetAddrByGin(c)
 	logger.Info("Login successfully!")

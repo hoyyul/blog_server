@@ -27,18 +27,21 @@ func (UserApi) UserUpdateNickName(c *gin.Context) {
 		res.FailWithCode(res.ParameterError, c)
 		return
 	}
+
+	var userModel models.UserModel
+	err = global.DB.Debug().Take(&userModel, claim.UserID).Error
+	if err != nil {
+		res.FailWithMessage("User doesn't exist", c)
+		return
+	}
+
+	// 去空值
 	var newMaps = map[string]interface{}{}
 	maps := structs.Map(req)
 	for key, v := range maps {
 		if val, ok := v.(string); ok && strings.TrimSpace(val) != "" {
 			newMaps[key] = val
 		}
-	}
-	var userModel models.UserModel
-	err = global.DB.Debug().Take(&userModel, claim.UserID).Error
-	if err != nil {
-		res.FailWithMessage("User doesn't exist", c)
-		return
 	}
 	err = global.DB.Model(&userModel).Updates(newMaps).Error
 	if err != nil {

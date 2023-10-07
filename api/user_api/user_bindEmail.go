@@ -23,7 +23,6 @@ func (UserApi) UserBindEmailView(c *gin.Context) {
 	_claim, _ := c.Get("claim")
 	claim := _claim.(*jwts.CustomClaim)
 
-	// first time
 	var req BindEmailRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
@@ -31,7 +30,10 @@ func (UserApi) UserBindEmailView(c *gin.Context) {
 		return
 	}
 
+	// set session
 	session := sessions.Default(c)
+
+	// first time
 	if req.Code == nil {
 		// generate verification code and save in session
 		code := verification.GetRandomCode()
