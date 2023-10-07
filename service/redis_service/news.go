@@ -10,10 +10,10 @@ import (
 const newsIndex = "news_index"
 
 type NewsData struct {
-	Index    int    `json:"index"`
-	Title    string `json:"title"`
-	HotValue string `json:"hotValue"`
-	Link     string `json:"link"`
+	Index    interface{} `json:"index"`
+	Title    string      `json:"title"`
+	HotValue string      `json:"hotValue"`
+	Link     string      `json:"link"`
 }
 
 func SetNews(key string, newsDatas []NewsData) error {

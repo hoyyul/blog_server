@@ -16,11 +16,10 @@ func (MenuApi) MenuUpdateView(c *gin.Context) {
 		res.FailWithValidation(err, &req, c)
 		return
 	}
-	id := c.Param("id")
 
 	// clean original banners
 	var menuModel models.MenuModel
-	err = global.DB.Take(&menuModel, id).Error
+	err = global.DB.Take(&menuModel, c.Param("id")).Error
 	if err != nil {
 		res.FailWithMessage("Menu doesn't exits", c)
 		return

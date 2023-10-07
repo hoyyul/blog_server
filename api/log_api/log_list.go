@@ -23,5 +23,4 @@ func (LogApi) LogListView(c *gin.Context) {
 		Likes:    []string{"ip", "addr"},
 	})
 	res.OkWithList(list, count, c)
-	return
 }
