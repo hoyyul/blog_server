@@ -18,24 +18,21 @@ This is the backend for a decoupled personal blog project, with the frontend pro
 
 ## Main features
 ### English
-- creation, read, deletion, update for advertisement, article, news, images, menu, tag, comment
-- User bind email, change password, registration/login(jwt)
+- creation, read, deletion, update for advertisement, article, news, images, menu, comment
+- User bind email, change password, registration/login(jwt + cookie session)
 - Online chat/groupchat(websocket)
-- Login log
-- Article categorization, bookmarking, liking, data statistic, full-text search
+- Article bookmark, liking, data statistic, full-text search by title and category
 - Third-party login (reviewing by the third party now)
 - Counting the number of comments, articles, article likes, comment likes, and tracking user logins over the past 7 days.(redis+elasticsearch)
-- cloud storage(aws)
 
 ### Japanese
-- 広告、記事、ニュース、画像、メニュー、タグ、コメントの作成、読み取り、削除、更新
-- ユーザーのメールアドレスを紐づけ、パスワードを変更、登録/ログイン（JWT）
+- 広告、記事、ニュース、画像、メニュー、コメントの作成、読み取り、削除、更新
+- ユーザーのメールアドレスを紐づけ、パスワードを変更、登録/ログイン（(jwt + cookie session)
 - オンラインチャット/グループチャット（WebSocket）
 - インログのログ
-- 文章のカテゴリ分け、ブックマーク、いいね、データ統計、全文検索
+- 文章のブックマーク、いいね、データ統計、タイトルとカテゴリーによる全文検索
 - 第三者ログイン（第三者による審査中）
-- コメント数、記事数、記事のいいね数、コメントのいいね数、過去7日間のユーザーログイン数。（Redis+Elasticsearch）
-- クラウドストレージ（AWS）
+- コメント数、記事数、記事のいいね数、コメントのいいね数、過去7日間のユーザーログイン数の統計。（Redis+Elasticsearch）
 
 ## Project Structure
 ```
@@ -105,14 +102,7 @@ blog
 ```
 
 ## Frontend(coding)
-user login log
-![user login log](preview/pre1.png)
-
-user list
-![user list](preview/pre2.png)
-
-homepage
-![homepage](preview/pre3.png)
+Vue3
 
 ## Deployment
 ```go
