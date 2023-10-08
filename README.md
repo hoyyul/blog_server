@@ -34,6 +34,28 @@ This is the backend for a decoupled personal blog project, with the frontend pro
 - 第三者ログイン（第三者による審査中）
 - コメント数、記事数、記事のいいね数、コメントのいいね数、過去7日間のユーザーログイン数の統計。（Redis+Elasticsearch）
 
+## Management System
+### Menu management
+![Menu management](preview/pre1.png)
+
+### User management
+create new user
+![create new user1](preview/pre2.png)
+![create new user2](preview/pre3.png)
+
+login new user's account
+![create new user3](preview/pre4.png)
+
+send verification code to new user's email
+![create new user4](preview/pre5.png)
+
+enter the verification code to bind email
+![create new user5](preview/pre6.png)
+![create new user6](preview/pre7.png)
+
+### Group Chat
+![Group Chat](preview/pre8.png)
+
 ## Project Structure
 ```
 blog
@@ -101,7 +123,7 @@ blog
     └── verification
 ```
 
-## Frontend(coding)
+## Frontend(optimizing)
 Vue3
 
 ## Deployment
