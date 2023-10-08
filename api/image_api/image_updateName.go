@@ -15,7 +15,7 @@ func (ImageApi) ImageUpdateName(c *gin.Context) {
 	var req ImageUpdateRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		res.FailWithValidation(err, req, c)
+		res.FailWithValidation(err, &req, c)
 		return
 	}
 

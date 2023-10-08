@@ -14,7 +14,7 @@ import (
 )
 
 func GetList(option Option) (articleList []models.ArticleModel, count int, err error) {
-	boolSearch := elastic.NewBoolQuery()
+	//boolSearch := elastic.NewBoolQuery()
 
 	// search article by title, abstract, content
 	if option.Key != "" {
@@ -52,7 +52,7 @@ func GetList(option Option) (articleList []models.ArticleModel, count int, err e
 	//search
 	res, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
-		Query(boolSearch).
+		Query(option.Query).
 		Highlight(elastic.NewHighlight().Field("title")). // highlight title if search by title
 		From(option.GetForm()).
 		Sort(sortField.Field, sortField.Ascending).

@@ -12,7 +12,7 @@ func (AdvertiseApi) AdvertiseUploadView(c *gin.Context) {
 	var req AdvertiseRequest
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		res.FailWithValidation(err, req, c)
+		res.FailWithValidation(err, &req, c)
 		return
 	}
 

@@ -28,26 +28,34 @@ func (ArticleApi) ArticleCollectView(c *gin.Context) {
 
 	var collection models.UserArticleCollectionModels
 	err = global.DB.Take(&collection, "user_id = ? and article_id = ?", claim.UserID, req.ID).Error
-	var num = -1
+
 	if err != nil {
-		// not found
-		global.DB.Create(&models.UserArticleCollectionModels{
+		// Article not found in collection, so add it.
+		err = global.DB.Create(&models.UserArticleCollectionModels{
 			UserID:    claim.UserID,
 			ArticleID: req.ID,
+		}).Error
+		if err != nil {
+			// Handle error during creation
+			res.FailWithMessage("Failed to collect the article", c)
+			return
+		}
+		es_service.ArticleUpdate(req.ID, map[string]any{
+			"collects_count": model.CollectsCount + 1,
 		})
-		// collect
-		num = 1
+		res.OkWithMessage("Collect article successfully!", c)
+		return
 	}
-	// suspend collect
-	global.DB.Delete(&collection)
 
-	// update collect count
-	es_service.ArticleUpdate(req.ID, map[string]any{
-		"collects_count": model.CollectsCount + num,
-	})
-	if num == 1 {
-		res.OkWithMessage("Collect article successfully", c)
-	} else {
-		res.OkWithMessage("Failed to collect article", c)
+	// If article found in collection, remove it.
+	err = global.DB.Delete(&collection).Error
+	if err != nil {
+		// Handle error during deletion
+		res.FailWithMessage("Failed to suspend collection", c)
+		return
 	}
+	es_service.ArticleUpdate(req.ID, map[string]any{
+		"collects_count": model.CollectsCount - 1,
+	})
+	res.OkWithMessage("Suspend collection!", c)
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"blog_server/global"
 	"blog_server/initialization"
+	"fmt"
 
 	"gopkg.in/gomail.v2"
 )
@@ -67,5 +68,6 @@ func sendMail(senderName, pwd, host string, port int, receiverEmail, senderEmail
 func main() {
 	initialization.InitConf()
 	initialization.InitLogger()
-	NewVerification().Send("hayutokyo@gmail.com", "hello")
+	err := NewVerification().Send("hayutokyo@gmail.com", "hello")
+	fmt.Println(err)
 }
