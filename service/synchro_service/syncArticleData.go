@@ -57,7 +57,7 @@ func SyncArticleData() {
 		logrus.Infof("%s, like data synchronized successfully, number of likes %d, number of views %d, number of comments %d", article.Title, newDigg, newLook, newComment)
 
 	}
-	redis_service.NewCommentCount().Clear()
+	redis_service.NewArticleDigg().Clear()
 	redis_service.NewArticleVisit().Clear()
 	redis_service.NewCommentCount().Clear()
 }
